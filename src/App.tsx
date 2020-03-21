@@ -1,28 +1,27 @@
 import React from 'react';
-import MainMenu from './components/MainMenu';
-import { Box, Main } from 'grommet';
-import styled from 'styled-components';
+import { Main } from 'grommet';
+import { configureStore } from './state/store';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router';
+import Settings from './components/screens/Settings';
+import Menu from './components/screens/Menu';
 
-function Header() {
-  const H1 = styled.h1`
-    text-align: center;
-  `;
 
-  return (
-    <header>
-      <H1>Sokobot 3D</H1>
-    </header>
-  );
-}
+const { store, history } = configureStore();
 
 function App() {
   return (
-    <Main align="center">
-      <Box width="medium">
-        <Header/>
-        <MainMenu/>
-      </Box>
-    </Main>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Main align="center">
+          <Switch>
+            <Route exact path="/" component={Menu}/>
+            <Route exact path="/settings" component={Settings}/>
+          </Switch>
+        </Main>
+      </ConnectedRouter>
+    </Provider>
   );
 }
 
