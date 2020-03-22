@@ -1,10 +1,10 @@
+import { push } from 'connected-react-router';
 import { Box, Button } from 'grommet';
 import React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import styled from 'styled-components';
 import levels from '../../data/levels.json';
-import { Dispatch } from 'redux';
-import { push } from 'connected-react-router';
-import { connect } from 'react-redux';
 
 
 interface LevelSelectionProps {
@@ -32,8 +32,9 @@ function LevelSelection({ selectLevel }: LevelSelectionProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    selectLevel: (level: number) => dispatch(push(`/level-${level}`))
+    selectLevel: (level: number) => dispatch(push(`/level/${level}`))
   };
 }
+
 
 export default connect(null, mapDispatchToProps)(LevelSelection);
