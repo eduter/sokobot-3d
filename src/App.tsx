@@ -6,6 +6,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 import Settings from './components/screens/Settings';
 import Menu from './components/screens/Menu';
+import LevelSelection from './components/screens/LevelSelection';
 
 
 const { store, history } = configureStore();
@@ -18,6 +19,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Menu}/>
             <Route exact path="/settings" component={Settings}/>
+            <Route exact path="/select-level" component={LevelSelection}/>
           </Switch>
         </Main>
       </ConnectedRouter>
