@@ -1,10 +1,10 @@
-import { Box } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Dispatch } from 'redux';
-import styled from 'styled-components';
 import levels from '../../data/levels.json';
+import Screen from '../Screen';
+import BackButton from '../BackButton';
 
 
 interface MatchParams {
@@ -13,10 +13,6 @@ interface MatchParams {
 
 interface LevelProps extends RouteComponentProps<MatchParams> {
 }
-
-const H1 = styled.h1`
-  text-align: center;
-`;
 
 function Level({ match }: LevelProps) {
   const levelIndex = +match.params.level;
@@ -27,19 +23,14 @@ function Level({ match }: LevelProps) {
   }
 
   return (
-    <Box width="medium">
-      <header>
-        <H1>{levelData.name}</H1>
-      </header>
-      <Box width="medium" gap="small" align="stretch">
-      </Box>
-    </Box>
+    <Screen title={levelData.name}>
+      <BackButton/>
+    </Screen>
   );
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-  };
+  return {};
 }
 
 

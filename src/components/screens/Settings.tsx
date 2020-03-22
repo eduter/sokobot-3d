@@ -1,16 +1,13 @@
 import React from 'react';
 import BackButton from '../BackButton';
-import { Box } from 'grommet';
+import Screen from '../Screen';
 
 
 function Settings() {
   return (
-    <Box width="medium">
-      <header>
-        <h1>Settings</h1>
-      </header>
+    <Screen title="Settings">
       <BackButton/>
-    </Box>
+    </Screen>
   );
 }
 
