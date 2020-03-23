@@ -8,6 +8,7 @@ import levels from '../../data/levels.json';
 import { levelsActions } from '../../state/ducks/levels';
 import BackButton from '../BackButton';
 import Screen from '../Screen';
+import MyCanvas from '../webgl/MyCanvas';
 
 
 interface MatchParams {
@@ -29,6 +30,7 @@ function Level({ match, finishLevel }: LevelProps) {
   return (
     <Screen title={levelData.name}>
       <Button label="Finish level" onClick={() => finishLevel(level)} />
+      <MyCanvas/>
       <BackButton/>
     </Screen>
   );
