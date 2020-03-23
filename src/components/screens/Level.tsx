@@ -1,10 +1,13 @@
+import { goBack } from 'connected-react-router';
+import { Button } from 'grommet';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Dispatch } from 'redux';
 import levels from '../../data/levels.json';
-import Screen from '../Screen';
+import { levelsActions } from '../../state/ducks/levels';
 import BackButton from '../BackButton';
+import Screen from '../Screen';
 
 
 interface MatchParams {
@@ -12,11 +15,12 @@ interface MatchParams {
 }
 
 interface LevelProps extends RouteComponentProps<MatchParams> {
+  finishLevel(level: number): void;
 }
 
-function Level({ match }: LevelProps) {
-  const levelIndex = +match.params.level;
-  const levelData = levels[levelIndex];
+function Level({ match, finishLevel }: LevelProps) {
+  const level = +match.params.level;
+  const levelData = levels[level];
 
   if (!levelData) {
     return <Redirect to="/select-level"/>;
@@ -24,13 +28,19 @@ function Level({ match }: LevelProps) {
 
   return (
     <Screen title={levelData.name}>
+      <Button label="Finish level" onClick={() => finishLevel(level)} />
       <BackButton/>
     </Screen>
   );
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return {};
+  return {
+    finishLevel(level: number) {
+      dispatch(levelsActions.finishLevel(level));
+      dispatch(goBack());
+    }
+  };
 }
 
 
