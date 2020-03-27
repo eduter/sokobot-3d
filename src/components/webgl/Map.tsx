@@ -1,5 +1,4 @@
 import React from 'react';
-import { AxesHelper } from 'react-three-fiber/components';
 import GroundElevation from './GroundElevation';
 import CardboardBox from './CardboardBox';
 import TargetTile from './TargetTile';
@@ -23,17 +22,14 @@ function Map({}: MapProps) {
     }
   }
   return (
-    <group rotation={[-Math.PI / 2, 0, 0]}>
-      <AxesHelper scale={[mapSize, mapSize, mapSize]}/>
-      <group position={[(1 - mapSize) / 2, (1 - mapSize) / 2, -.5]}>
-        <TargetTile x={0} y={0} height={tiles[0].height + 0.51}/>
-        {tiles.map(({ x, y, height, box }) => (
-          <>
-            <GroundElevation x={x} y={y} height={height}/>
-            {box && <CardboardBox x={x} y={y} height={height + 1}/>}
-          </>
-        ))}
-      </group>
+    <group position={[(1 - mapSize) / 2, (1 - mapSize) / 2, -.5]}>
+      <TargetTile x={0} y={0} height={tiles[0].height + 0.51}/>
+      {tiles.map(({ x, y, height, box }) => (
+        <>
+          <GroundElevation x={x} y={y} height={height}/>
+          {box && <CardboardBox x={x} y={y} height={height + 1}/>}
+        </>
+      ))}
     </group>
   );
 }
