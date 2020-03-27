@@ -9,7 +9,7 @@ interface CardboardBoxProps {
 
 function CardboardBox({ x, y, height }: CardboardBoxProps) {
   return (
-    <mesh position={[x, height, y]}>
+    <mesh position={[x, y, height]}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]}/>
       <meshLambertMaterial attach="material" color={0xD2691E}/>
     </mesh>

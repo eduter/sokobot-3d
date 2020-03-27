@@ -9,7 +9,7 @@ interface GroundElevationProps {
 
 function GroundElevation({ x, y, height }: GroundElevationProps) {
   return (
-    <mesh position={[x, height, y]}>
+    <mesh position={[x, y, height]}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]}/>
       <meshLambertMaterial attach="material" color={0x555555} transparent={true}/>
     </mesh>

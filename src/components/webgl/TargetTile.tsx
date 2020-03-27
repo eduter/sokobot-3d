@@ -9,7 +9,7 @@ interface TargetTileProps {
 
 function TargetTile({ x, y, height }: TargetTileProps) {
   return (
-    <mesh position={[x, height, y]} rotation={[-Math.PI / 2, 0, 0]}>
+    <mesh position={[x, y, height]}>
       <planeBufferGeometry attach="geometry" args={[1, 1]}/>
       <meshLambertMaterial attach="material" color={0x00FF00}/>
     </mesh>
