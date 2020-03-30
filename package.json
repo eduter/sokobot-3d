@@ -2,6 +2,13 @@
   "name": "sokobot-3d",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test-cov": "react-scripts test --coverage",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "connected-react-router": "^6.8.0",
     "grommet": "^2.11.2",
@@ -33,12 +40,6 @@
     "@types/three": "^0.103.2",
     "@types/webpack-env": "^1.15.1",
     "utility-types": "^3.10.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
