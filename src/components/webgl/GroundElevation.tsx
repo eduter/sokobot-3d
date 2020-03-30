@@ -9,8 +9,8 @@ interface GroundElevationProps {
 
 function GroundElevation({ x, y, height }: GroundElevationProps) {
   return (
-    <mesh position={[x, y, height]} castShadow={true} receiveShadow={true}>
-      <boxBufferGeometry attach="geometry" args={[1, 1, 1]}/>
+    <mesh position={[x, y, (1 + height) / 2]} castShadow={true} receiveShadow={true}>
+      <boxBufferGeometry attach="geometry" args={[1, 1, height]}/>
       <meshPhongMaterial attach="material" color={0x555555}/>
     </mesh>
   );

@@ -20,7 +20,7 @@ export interface LevelMap {
   };
 }
 
-interface Tile {
+export interface Tile {
   height: number;
   boxes: number;
 }

@@ -1,35 +1,34 @@
 import React, { Fragment } from 'react';
-import GroundElevation from './GroundElevation';
+import { connect } from 'react-redux';
+import { gameSelectors } from '../../state/ducks/game';
+import { TileInfo } from '../../state/ducks/game/selectors';
+import { State } from '../../state/types';
 import CardboardBox from './CardboardBox';
-import TargetTile from './TargetTile';
+import GroundElevation from './GroundElevation';
 import Robot from './Robot';
+import TargetTile from './TargetTile';
+import { directionToAngle } from '../../utils/directionHelpers';
 
 
 interface MapProps {
+  getTilesInfo(): TileInfo[];
+  getMapDimensions(): [number, number];
+  getRobotPosition(): [number, number, number];
+  getRobotDirection(): number;
 }
 
-function Map({}: MapProps) {
-  const tiles = [];
-  const mapSize = 6;
+function Map({ getTilesInfo, getMapDimensions, getRobotPosition, getRobotDirection }: MapProps) {
+  const tiles = getTilesInfo();
+  const [xSize, ySize] = getMapDimensions();
 
-  for (let x = 0; x < mapSize; x++) {
-    for (let y = 0; y < mapSize; y++) {
-      tiles.push({
-        x,
-        y,
-        height: 0,
-        box: false
-      });
-    }
-  }
   return (
-    <group position={[(1 - mapSize) / 2, (1 - mapSize) / 2, -.5]}>
-      <TargetTile x={0} y={0} height={tiles[0].height + 0.51}/>
-      <Robot/>
-      {tiles.map(({ x, y, height, box }) => (
+    <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -.5]}>
+      <Robot position={getRobotPosition()} direction={getRobotDirection()}/>
+      {tiles.map(({ x, y, height, boxes, target }) => (
         <Fragment key={`${x}-${y}`}>
-          <GroundElevation x={x} y={y} height={height}/>
-          {box && <CardboardBox x={x} y={y} height={height + 1}/>}
+          {height > 0 && <GroundElevation x={x} y={y} height={height}/>}
+          {boxes > 0 && <CardboardBox x={x} y={y} height={height + 1}/>}
+          {target && <TargetTile x={x} y={y} height={height}/>}
         </Fragment>
       ))}
     </group>
@@ -37,4 +36,22 @@ function Map({}: MapProps) {
 }
 
 
-export default Map;
+function mapStateToProps(state: State) {
+  return {
+    getMapDimensions() {
+      return gameSelectors.getMapDimensions(state.game);
+    },
+    getTilesInfo() {
+      return gameSelectors.getTilesInfo(state.game);
+    },
+    getRobotPosition() {
+      return gameSelectors.getRobotPosition(state.game);
+    },
+    getRobotDirection() {
+      return directionToAngle(gameSelectors.getRobotDirection(state.game));
+    }
+  };
+}
+
+
+export default connect(mapStateToProps)(Map);

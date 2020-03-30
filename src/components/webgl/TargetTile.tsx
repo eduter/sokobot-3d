@@ -9,7 +9,7 @@ interface TargetTileProps {
 
 function TargetTile({ x, y, height }: TargetTileProps) {
   return (
-    <mesh position={[x, y, height]} receiveShadow={true}>
+    <mesh position={[x, y, height + .51]} receiveShadow={true}>
       <planeBufferGeometry attach="geometry" args={[1, 1]}/>
       <meshLambertMaterial attach="material" color={0x00FF00}/>
     </mesh>

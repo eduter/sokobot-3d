@@ -18,14 +18,14 @@ interface LevelSelectionProps {
   isUnlocked: (level: number) => boolean
 }
 
-const empty3x3Map: LevelMap = {
+const testMap: LevelMap = {
   height: 3,
   width: 3,
-  targets: [],
+  targets: [[1, 1]],
   tiles: [
+    [{ height: 2, boxes: 0 }, { height: 3, boxes: 0 }, { height: 0, boxes: 0 }],
     [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }]
+    [{ height: 0, boxes: 0 }, { height: 1, boxes: 0 }, { height: 0, boxes: 0 }]
   ],
   robot: {
     position: [1, 1],
@@ -57,7 +57,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     selectLevel(level: number) {
       dispatch(push(`/level/${level}`));
-      dispatch(gameActions.startGame(empty3x3Map));
+      dispatch(gameActions.startGame(testMap));
     }
   };
 }
