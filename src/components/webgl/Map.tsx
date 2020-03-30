@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import GroundElevation from './GroundElevation';
 import CardboardBox from './CardboardBox';
 import TargetTile from './TargetTile';
+import Robot from './Robot';
 
 
 interface MapProps {
@@ -16,19 +17,20 @@ function Map({}: MapProps) {
       tiles.push({
         x,
         y,
-        height: Math.random() > 0.7 ? 1 : 0,
-        box: Math.random() > 0.9
+        height: 0,
+        box: false
       });
     }
   }
   return (
     <group position={[(1 - mapSize) / 2, (1 - mapSize) / 2, -.5]}>
       <TargetTile x={0} y={0} height={tiles[0].height + 0.51}/>
+      <Robot/>
       {tiles.map(({ x, y, height, box }) => (
-        <>
+        <Fragment key={`${x}-${y}`}>
           <GroundElevation x={x} y={y} height={height}/>
           {box && <CardboardBox x={x} y={y} height={height + 1}/>}
-        </>
+        </Fragment>
       ))}
     </group>
   );

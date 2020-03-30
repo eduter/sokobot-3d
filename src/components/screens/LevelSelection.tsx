@@ -6,7 +6,10 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import levels from '../../data/levels.json';
 import { State } from '../../state/types';
+import { gameActions } from '../../state/ducks/game';
 import { levelsSelectors } from '../../state/ducks/levels';
+import { Direction } from '../../utils/directionHelpers';
+import { LevelMap } from '../../state/ducks/game/types';
 import Screen from '../Screen';
 
 
@@ -14,6 +17,21 @@ interface LevelSelectionProps {
   selectLevel: (level: number) => void
   isUnlocked: (level: number) => boolean
 }
+
+const empty3x3Map: LevelMap = {
+  height: 3,
+  width: 3,
+  targets: [],
+  tiles: [
+    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
+    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
+    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }]
+  ],
+  robot: {
+    position: [1, 1],
+    direction: Direction.NORTH
+  }
+};
 
 function LevelSelection({ isUnlocked, selectLevel }: LevelSelectionProps) {
   return (
@@ -37,7 +55,10 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    selectLevel: (level: number) => dispatch(push(`/level/${level}`))
+    selectLevel(level: number) {
+      dispatch(push(`/level/${level}`));
+      dispatch(gameActions.startGame(empty3x3Map));
+    }
   };
 }
 
