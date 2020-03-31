@@ -22,7 +22,18 @@ export interface LevelMap {
 
 export interface Tile {
   height: number;
-  boxes: number;
+  objects: MovableObject[];
+}
+
+type MovableObject = Box;// | Ramp;
+
+interface Box {
+  type: 'box';
+}
+
+interface Ramp {
+  type: 'ramp';
+  direction: Direction;
 }
 
 

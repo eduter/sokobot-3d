@@ -24,10 +24,12 @@ function Map({ getTilesInfo, getMapDimensions, getRobotPosition, getRobotDirecti
   return (
     <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -.5]}>
       <Robot position={getRobotPosition()} direction={getRobotDirection()}/>
-      {tiles.map(({ x, y, height, boxes, target }) => (
+      {tiles.map(({ x, y, height, objects, target }) => (
         <Fragment key={`${x}-${y}`}>
           {height > 0 && <GroundElevation x={x} y={y} height={height}/>}
-          {boxes > 0 && <CardboardBox x={x} y={y} height={height + 1}/>}
+          {objects.map((object, index) => (
+            <CardboardBox key={`${x}-${y}-${index}`} x={x} y={y} height={height + index + 1}/>
+          ))}
           {target && <TargetTile x={x} y={y} height={height}/>}
         </Fragment>
       ))}

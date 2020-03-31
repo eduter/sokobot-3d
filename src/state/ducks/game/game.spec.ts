@@ -9,9 +9,9 @@ const empty3x3Map: State = {
   width: 3,
   targets: [],
   tiles: [
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }]
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }]
   ],
   robot: {
     position: [1, 1],

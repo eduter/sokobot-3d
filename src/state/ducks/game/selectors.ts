@@ -13,7 +13,7 @@ function getRobotPosition(state: State): [number, number, number] {
     throw Error('Trying to get robot\'s position before starting a game.');
   }
   const [x, y] = state.robot.position;
-  const height = state.tiles[x][y].height + state.tiles[x][y].boxes + 1;
+  const height = state.tiles[x][y].height + state.tiles[x][y].objects.length + 1;
 
   return [x, y, height];
 }

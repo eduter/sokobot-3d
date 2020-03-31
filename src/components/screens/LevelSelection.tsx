@@ -23,9 +23,9 @@ const testMap: LevelMap = {
   width: 3,
   targets: [[1, 1]],
   tiles: [
-    [{ height: 2, boxes: 0 }, { height: 3, boxes: 0 }, { height: 0, boxes: 0 }],
-    [{ height: 1, boxes: 0 }, { height: 1, boxes: 0 }, { height: 1, boxes: 0 }],
-    [{ height: 0, boxes: 0 }, { height: 1, boxes: 0 }, { height: 0, boxes: 0 }]
+    [{ height: 2, objects: [] }, { height: 3, objects: [] }, { height: 0, objects: [] }],
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }, { type: 'box' }] }],
+    [{ height: 0, objects: [] }, { height: 1, objects: [] }, { height: 0, objects: [] }]
   ],
   robot: {
     position: [1, 1],
