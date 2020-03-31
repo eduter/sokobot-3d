@@ -19,16 +19,18 @@ interface LevelSelectionProps {
 }
 
 const testMap: LevelMap = {
-  height: 3,
-  width: 3,
-  targets: [[1, 1]],
+  height: 5,
+  width: 5,
+  targets: [[0, 0]],
   tiles: [
-    [{ height: 2, objects: [] }, { height: 3, objects: [] }, { height: 0, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }, { type: 'box' }] }],
-    [{ height: 0, objects: [] }, { height: 1, objects: [] }, { height: 0, objects: [] }]
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
+    [{ height: 1, objects: [] }, { height: 0, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }, { type: 'box' }] }],
+    [{ height: 1, objects: [] }, { height: 2, objects: [] }, { height: 2, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
+    [{ height: 1, objects: [] }, { height: 2, objects: [] }, { height: 2, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }],
+    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }]
   ],
   robot: {
-    position: [1, 1],
+    position: [2, 2],
     direction: Direction.NORTH
   }
 };
