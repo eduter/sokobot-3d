@@ -278,6 +278,32 @@ describe('gameReducer', () => {
     }
   });
 
+  it('allows robot to push boxes through flat surfaces', () => {
+    const stateBefore: State = {
+      width: 1,
+      height: 3,
+      targets: [],
+      tiles: [
+        [{ height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }, { height: 1, objects: [] }]
+      ],
+      robot: {
+        position: [0, 0],
+        direction: Direction.NORTH
+      }
+    };
+    const stateAfter: State = {
+      ...stateBefore,
+      tiles: [
+        [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }]
+      ],
+      robot: {
+        position: [0, 1],
+        direction: Direction.NORTH
+      }
+    };
+    expect(gameReducer(stateBefore, actions.moveForward())).toEqual(stateAfter);
+  });
+
   it('ignores unknown actions', () => {
     const stateBefore = empty3x3Map;
     const action = { type: 'any unknown action' };

@@ -1,4 +1,7 @@
-import { move, oppositeDirection, Point2D, rotateLeft, rotateRight } from '../../../mechanics/directions';
+import { Direction, move, oppositeDirection, rotateLeft, rotateRight } from '../../../mechanics/directions';
+import getRelevantTiles from '../../../mechanics/getRelevantTiles';
+import isMoveValid from '../../../mechanics/isMoveValid';
+import pushObjects from '../../../mechanics/pushObjects';
 import { assertNever } from '../../../utils/types';
 import { Action } from './actions';
 import { ActionTypes, LevelMap, State } from './types';
@@ -12,32 +15,35 @@ function gameReducer(state: State = INITIAL_STATE, action: Action): State {
   } else if (state) {
     switch (action.type) {
       case ActionTypes.MOVE_FORWARD: {
-        const newPosition = move(state.robot.position, state.robot.direction);
+        const direction = state.robot.direction;
 
-        if (isValidTile(state, newPosition) && heightDifference(state, state.robot.position, newPosition) <= 0) {
+        if (canMove(state, direction)) {
           return {
             ...state,
+            tiles: pushObjects(state.tiles, state.robot.position, direction),
             robot: {
-              position: newPosition,
+              position: move(state.robot.position, direction),
               direction: state.robot.direction
             }
           };
         }
         return state;
       }
-      case ActionTypes.MOVE_BACKWARD:
-        const newPosition = move(state.robot.position, oppositeDirection(state.robot.direction));
+      case ActionTypes.MOVE_BACKWARD: {
+        const direction = oppositeDirection(state.robot.direction);
 
-        if (isValidTile(state, newPosition) && heightDifference(state, state.robot.position, newPosition) <= 0) {
+        if (canMove(state, direction)) {
           return {
             ...state,
+            tiles: pushObjects(state.tiles, state.robot.position, direction),
             robot: {
-              position: newPosition,
+              position: move(state.robot.position, direction),
               direction: state.robot.direction
             }
           };
         }
         return state;
+      }
       case ActionTypes.TURN_RIGHT:
         return {
           ...state,
@@ -63,17 +69,9 @@ function gameReducer(state: State = INITIAL_STATE, action: Action): State {
   }
 }
 
-function isValidTile(map: LevelMap, [x, y]: Point2D) {
-  return map.tiles[x] && map.tiles[x][y] && map.tiles[x][y].height > 0;
-}
-
-function heightDifference(map: LevelMap, origin: Point2D, destination: Point2D) {
-  const [ox, oy] = origin;
-  const [dx, dy] = destination;
-  const originTile = map.tiles[ox][oy];
-  const destTile = map.tiles[dx][dy];
-
-  return destTile.height + destTile.objects.length - (originTile.height + originTile.objects.length);
+function canMove(state: LevelMap, direction: Direction) {
+  const relevantTiles = getRelevantTiles(state.tiles, state.robot.position, direction);
+  return isMoveValid(...relevantTiles);
 }
 
 
