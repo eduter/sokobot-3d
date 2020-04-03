@@ -1,4 +1,4 @@
-import { move, oppositeDirection, Point2D, rotateLeft, rotateRight } from '../../../utils/directionHelpers';
+import { move, oppositeDirection, Point2D, rotateLeft, rotateRight } from '../../../mechanics/directions';
 import { assertNever } from '../../../utils/types';
 import { Action } from './actions';
 import { ActionTypes, LevelMap, State } from './types';

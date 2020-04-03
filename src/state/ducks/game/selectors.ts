@@ -1,4 +1,4 @@
-import { Direction } from '../../../utils/directionHelpers';
+import { Direction } from '../../../mechanics/directions';
 import { State, Tile } from './types';
 
 

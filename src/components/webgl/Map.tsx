@@ -7,7 +7,7 @@ import CardboardBox from './CardboardBox';
 import GroundElevation from './GroundElevation';
 import Robot from './Robot';
 import TargetTile from './TargetTile';
-import { directionToAngle } from '../../utils/directionHelpers';
+import { directionToAngle } from '../../mechanics/directions';
 
 
 interface MapProps {

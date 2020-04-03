@@ -1,4 +1,4 @@
-import { Direction, Point2D } from '../../../utils/directionHelpers';
+import { Direction, Point2D } from '../../../mechanics/directions';
 
 
 export enum ActionTypes {

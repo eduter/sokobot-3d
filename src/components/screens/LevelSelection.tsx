@@ -8,7 +8,7 @@ import levels from '../../data/levels.json';
 import { State } from '../../state/types';
 import { gameActions } from '../../state/ducks/game';
 import { levelsSelectors } from '../../state/ducks/levels';
-import { Direction } from '../../utils/directionHelpers';
+import { Direction } from '../../mechanics/directions';
 import { LevelMap } from '../../state/ducks/game/types';
 import Screen from '../Screen';
 

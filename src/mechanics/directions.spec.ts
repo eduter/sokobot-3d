@@ -1,4 +1,4 @@
-import { Direction, directionToAngle, move, rotateLeft, rotateRight } from './directionHelpers';
+import { Direction, directionToAngle, move, rotateLeft, rotateRight } from './directions';
 
 describe('directionHelpers', () => {
 
