@@ -1,4 +1,4 @@
-import { Direction, Point2D } from '../../../mechanics/directions';
+import { LevelMap } from '../../../mechanics/types';
 
 
 export enum ActionTypes {
@@ -8,33 +8,5 @@ export enum ActionTypes {
   TURN_RIGHT = 'game/TURN_RIGHT',
   TURN_LEFT = 'game/TURN_LEFT'
 }
-
-export interface LevelMap {
-  height: number;
-  width: number;
-  tiles: Tile[][];
-  targets: Point2D[];
-  robot: {
-    position: Point2D;
-    direction: Direction;
-  };
-}
-
-export interface Tile {
-  height: number;
-  objects: MovableObject[];
-}
-
-type MovableObject = Box;// | Ramp;
-
-interface Box {
-  type: 'box';
-}
-
-interface Ramp {
-  type: 'ramp';
-  direction: Direction;
-}
-
 
 export type State = LevelMap | null;

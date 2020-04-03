@@ -1,5 +1,5 @@
-import { Tile } from '../state/ducks/game/types';
 import isMoveValid from './isMoveValid';
+import { Tile } from './types';
 
 
 const hole: Tile = { height: 0, objects: [] };

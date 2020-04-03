@@ -1,4 +1,5 @@
-import { ActionTypes, LevelMap } from './types';
+import { LevelMap } from '../../../mechanics/types';
+import { ActionTypes } from './types';
 
 
 interface StartGameAction {

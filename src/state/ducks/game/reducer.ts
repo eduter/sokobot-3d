@@ -2,9 +2,10 @@ import { Direction, move, oppositeDirection, rotateLeft, rotateRight } from '../
 import getRelevantTiles from '../../../mechanics/getRelevantTiles';
 import isMoveValid from '../../../mechanics/isMoveValid';
 import pushObjects from '../../../mechanics/pushObjects';
+import { LevelMap } from '../../../mechanics/types';
 import { assertNever } from '../../../utils/types';
 import { Action } from './actions';
-import { ActionTypes, LevelMap, State } from './types';
+import { ActionTypes, State } from './types';
 
 
 const INITIAL_STATE: State = null;

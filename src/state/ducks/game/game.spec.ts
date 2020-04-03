@@ -1,7 +1,8 @@
 import { Direction, Point2D } from '../../../mechanics/directions';
+import { LevelMap } from '../../../mechanics/types';
 import * as actions from './actions';
 import gameReducer from './reducer';
-import { LevelMap, State } from './types';
+import { State } from './types';
 
 
 const empty3x3Map: State = {

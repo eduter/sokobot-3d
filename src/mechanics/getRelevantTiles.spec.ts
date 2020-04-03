@@ -1,6 +1,6 @@
-import { Tile } from '../state/ducks/game/types';
 import getRelevantTiles from './getRelevantTiles';
 import { Direction } from './directions';
+import { Tile } from './types';
 
 
 const hole: Tile = { height: 0, objects: [] };

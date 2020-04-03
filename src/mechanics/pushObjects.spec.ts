@@ -1,6 +1,6 @@
-import { Tile } from '../state/ducks/game/types';
 import { Direction } from './directions';
 import pushObjects from './pushObjects';
+import { Tile } from './types';
 
 
 const height1boxes0: Tile = { height: 1, objects: [] };

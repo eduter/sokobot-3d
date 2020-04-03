@@ -1,5 +1,6 @@
 import { Direction } from '../../../mechanics/directions';
-import { State, Tile } from './types';
+import { Tile } from '../../../mechanics/types';
+import { State } from './types';
 
 
 export interface TileInfo extends Tile {
