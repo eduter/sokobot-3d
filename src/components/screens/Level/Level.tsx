@@ -4,11 +4,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Dispatch } from 'redux';
-import levels from '../../data/levels.json';
-import { levelsActions } from '../../state/ducks/levels';
-import BackButton from '../BackButton';
-import Screen from '../Screen';
-import MyCanvas from '../webgl/MyCanvas';
+import levels from '../../../data/levels.json';
+import { levelsActions } from '../../../state/ducks/levels';
+import BackButton from '../../BackButton';
+import Screen from '../../Screen';
+import MyCanvas from '../../webgl/MyCanvas';
 
 
 interface MatchParams {
