@@ -8968,6 +8968,11 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redux-loop@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/redux-loop/-/redux-loop-5.1.1.tgz#39586c6eae5e04021ede996ffea4c28c7dcab104"
+  integrity sha512-85Yqy37osGBeoxPPuNTtNQh0Xcuig7HG+WmDBbK9dif0CusPX/uA2hi7ZVLI/M9QVU4GQ8lmFu62NrJG/ahAlg==
+
 redux@^4.0.0, redux@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.5.tgz#4db5de5816e17891de8a80c424232d06f051d93f"

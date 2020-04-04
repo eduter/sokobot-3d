@@ -1,3 +1,4 @@
+import { LoopReducer } from 'redux-loop';
 import { Direction, move, oppositeDirection, rotateLeft, rotateRight } from '../../../mechanics/directions';
 import getRelevantTiles from '../../../mechanics/getRelevantTiles';
 import isMoveValid from '../../../mechanics/isMoveValid';
@@ -10,7 +11,10 @@ import { ActionTypes, State } from './types';
 
 const INITIAL_STATE: State = null;
 
-function gameReducer(state: State = INITIAL_STATE, action: Action): State {
+const gameReducer: LoopReducer<State, Action> = (
+  state: State = INITIAL_STATE,
+  action: Action
+): State  => {
   if (action.type === ActionTypes.START_GAME) {
     return action.payload;
   } else if (state) {
@@ -68,7 +72,7 @@ function gameReducer(state: State = INITIAL_STATE, action: Action): State {
   } else {
     return state;
   }
-}
+};
 
 function canMove(state: LevelMap, direction: Direction) {
   const relevantTiles = getRelevantTiles(state.tiles, state.robot.position, direction);

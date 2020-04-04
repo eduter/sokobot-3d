@@ -7,7 +7,7 @@ describe('levels reducer', () => {
 
   test('reducer initializes state', () => {
     const action = { type: 'any unknown action' };
-    const resultingState = reducer(undefined, action as any);
+    const resultingState = reducer(undefined, action as any) as State;
 
     expect(selectors.isUnlocked(resultingState, 0)).toBe(true);
     expect(selectors.isUnlocked(resultingState, 1)).toBe(false);
@@ -16,7 +16,7 @@ describe('levels reducer', () => {
   test('unlocks the next level, when finishing the highest unlocked level', () => {
     const stateBefore = { unlockedLevels: 5 };
     const action = actions.finishLevel(4);
-    const stateAfter = reducer(stateBefore, action);
+    const stateAfter = reducer(stateBefore, action) as State;
 
     expect(selectors.isUnlocked(stateBefore, 5)).toBe(false);
     expect(selectors.isUnlocked(stateAfter, 5)).toBe(true);
@@ -25,7 +25,7 @@ describe('levels reducer', () => {
   test('does not unlock anything, when finishing a level already finished', () => {
     const stateBefore = { unlockedLevels: 5 };
     const action = actions.finishLevel(3);
-    const stateAfter = reducer(stateBefore, action);
+    const stateAfter = reducer(stateBefore, action) as State;
 
     expect(selectors.isUnlocked(stateBefore, 5)).toBe(false);
     expect(selectors.isUnlocked(stateAfter, 5)).toBe(false);

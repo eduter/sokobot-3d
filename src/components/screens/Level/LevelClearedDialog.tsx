@@ -4,10 +4,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import levels from '../../../data/levels.json';
 import isLevelCleared from '../../../mechanics/isLevelCleared';
-import { LevelMap } from '../../../mechanics/types';
-import { gameActions } from '../../../state/ducks/game';
 import { levelsActions } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 
@@ -55,7 +52,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     goToLevel(level: number) {
       dispatch(levelsActions.finishLevel(level - 1)); // TODO: refactor this mess
       dispatch(push(`/level/${level}`));
-      dispatch(gameActions.startGame(levels[level].map as unknown as LevelMap));
     },
     goToLevelSelection() {
       dispatch(push('/select-level'));

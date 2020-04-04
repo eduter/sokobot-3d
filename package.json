@@ -21,6 +21,7 @@
     "react-scripts": "3.4.0",
     "react-three-fiber": "^4.0.22",
     "redux": "^4.0.5",
+    "redux-loop": "^5.1.1",
     "styled-components": "^5.0.1",
     "three": "^0.114.0",
     "typescript": "~3.7.2"
