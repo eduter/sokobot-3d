@@ -22,13 +22,12 @@ describe('levels reducer', () => {
     expect(selectors.isUnlocked(stateAfter, 5)).toBe(true);
   });
 
-  test('does not unlock anything, when finishing a level already finished', () => {
+  test('does not change the state, when finishing a level already finished', () => {
     const stateBefore = { unlockedLevels: 5 };
     const action = actions.finishLevel(3);
     const stateAfter = reducer(stateBefore, action) as State;
 
-    expect(selectors.isUnlocked(stateBefore, 5)).toBe(false);
-    expect(selectors.isUnlocked(stateAfter, 5)).toBe(false);
+    expect(stateAfter).toBe(stateBefore);
   });
 
   test('reducer ignores unknown actions', () => {

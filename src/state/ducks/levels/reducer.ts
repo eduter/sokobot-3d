@@ -33,9 +33,12 @@ const levelsReducer: Reducer<State, HandledAction, TriggeredAction> = (state = I
       }
       return state;
     case ActionTypes.FINISH_LEVEL:
-      return {
-        unlockedLevels: action.payload.level === state.unlockedLevels - 1 ? state.unlockedLevels + 1 : state.unlockedLevels
-      };
+      if (action.payload.level === state.unlockedLevels - 1) {
+        return {
+          unlockedLevels: state.unlockedLevels + 1
+        };
+      }
+      return state;
     default:
       return state;
   }
