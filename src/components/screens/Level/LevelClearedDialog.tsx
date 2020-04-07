@@ -4,8 +4,6 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import isLevelCleared from '../../../mechanics/isLevelCleared';
-import { levelsActions } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 
 
@@ -33,7 +31,7 @@ function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSel
         <Box width="medium" gap="small" align="stretch" pad="small">
           <h1>{nextLevel ? 'Level Cleared' : 'Game Cleared'}</h1>
           {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
-          {/*<Button label="Back to level selection" onClick={goToLevelSelection}/>*/}
+          <Button label="Back to level selection" onClick={goToLevelSelection}/>
         </Box>
       </DialogWrapper>
     );
@@ -43,14 +41,13 @@ function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSel
 
 function mapStateToProps(state: State) {
   return {
-    isLevelCleared: () => !!state.game && isLevelCleared(state.game)
+    isLevelCleared: () => state.game.finished
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
     goToLevel(level: number) {
-      dispatch(levelsActions.finishLevel(level - 1)); // TODO: refactor this mess
       dispatch(push(`/level/${level}`));
     },
     goToLevelSelection() {

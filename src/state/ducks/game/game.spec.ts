@@ -1,312 +1,215 @@
-import { Direction, Point2D } from '../../../mechanics/directions';
+import { Cmd, loop } from 'redux-loop';
+import { Direction } from '../../../mechanics/directions';
+import isMoveValid from '../../../mechanics/isMoveValid';
 import { LevelMap } from '../../../mechanics/types';
+import { levelsActions } from '../levels';
 import * as actions from './actions';
-import gameReducer from './reducer';
+import gameReducer, { INITIAL_STATE } from './reducer';
 import { State } from './types';
 
 
-const empty3x3Map: State = {
+jest.mock('../../../mechanics/isMoveValid');
+
+const simpleMap: LevelMap = {
+  width: 1,
   height: 3,
-  width: 3,
-  targets: [],
   tiles: [
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
     [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }]
   ],
+  targets: [],
   robot: {
-    position: [1, 1],
+    position: [0, 0],
     direction: Direction.NORTH
   }
 };
-const mapWithHole: State = {
-  height: 3,
-  width: 3,
-  targets: [],
-  tiles: [
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 0, objects: [] }, { height: 1, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }]
-  ],
-  robot: {
-    position: [1, 0],
-    direction: Direction.NORTH
-  }
-};
-const mapWithObstacle: State = {
-  height: 3,
-  width: 3,
-  targets: [],
-  tiles: [
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 2, objects: [] }, { height: 1, objects: [] }],
-    [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }]
-  ],
-  robot: {
-    position: [1, 0],
-    direction: Direction.NORTH
-  }
+const baseState: State = {
+  level: 1,
+  finished: false,
+  map: simpleMap
 };
 
 describe('gameReducer', () => {
 
-  it('initializes the map, when a game starts', () => {
-    expect(gameReducer(null, actions.startGame(empty3x3Map))).toEqual(empty3x3Map);
+  it('correctly initializes the state', () => {
+    const action = { type: 'any unknown action' };
+    expect(gameReducer(undefined, action as any)).toBe(INITIAL_STATE);
+  });
+
+  it('initializes the map, when a game (level) starts', () => {
+    const stateBefore: State = {
+      level: 2,
+      finished: true,
+      map: {
+        ...simpleMap,
+        targets: [[0, 0], [0, 2]]
+      }
+    };
+    const expectedStateAfter: State = {
+      level: 3,
+      finished: false,
+      map: simpleMap
+    };
+    expect(gameReducer(stateBefore, actions.startLevel(3, simpleMap))).toEqual(expectedStateAfter);
+  });
+
+  it('ignores all actions except START_LEVEL, before a map is selected', () => {
+    const stateBefore: State = { level: -1, finished: false };
+
+    expect(gameReducer(stateBefore, actions.turnRight())).toBe(stateBefore);
+    expect(gameReducer(stateBefore, actions.turnLeft())).toBe(stateBefore);
+    expect(gameReducer(stateBefore, actions.moveForward())).toBe(stateBefore);
+    expect(gameReducer(stateBefore, actions.moveBackward())).toBe(stateBefore);
+    expect(gameReducer(stateBefore, actions.move(Direction.NORTH))).toBe(stateBefore);
+    expect(gameReducer(stateBefore, actions.finishLevel())).toBe(stateBefore);
   });
 
   it('turns robot left and right', () => {
     expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.NORTH } },
+      { ...baseState, map: { ...simpleMap, robot: { position: [0, 0], direction: Direction.NORTH } } },
       actions.turnLeft()
     )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.WEST } }
+      { ...baseState, map: { ...simpleMap, robot: { position: [0, 0], direction: Direction.WEST } } }
     );
 
     expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.EAST } },
+      { ...baseState, map: { ...simpleMap, robot: { position: [0, 0], direction: Direction.EAST } } },
       actions.turnRight()
     )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.SOUTH } }
+      { ...baseState, map: { ...simpleMap, robot: { position: [0, 0], direction: Direction.SOUTH } } }
     );
   });
 
-  it('allows robot to move forward, when there are no obstacles', () => {
-    // Facing North
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.NORTH } },
-      actions.moveForward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 2], direction: Direction.NORTH } }
+  it('schedules a MOVE action in response to a MOVE_FORWARD action, iff the move is valid', () => {
+    (isMoveValid as jest.Mock).mockReturnValueOnce(true);
+    expect(
+      gameReducer(baseState, actions.moveForward())
+    ).toEqual(
+      loop(baseState, Cmd.action(actions.move(Direction.NORTH)))
     );
 
-    // Facing East
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.EAST } },
-      actions.moveForward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [2, 1], direction: Direction.EAST } }
-    );
-
-    // Facing South
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.SOUTH } },
-      actions.moveForward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 0], direction: Direction.SOUTH } }
-    );
-
-    // Facing West
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.WEST } },
-      actions.moveForward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [0, 1], direction: Direction.WEST } }
+    (isMoveValid as jest.Mock).mockReturnValueOnce(false);
+    expect(
+      gameReducer(baseState, actions.moveForward())
+    ).toEqual(
+      baseState
     );
   });
 
-  it('allows robot to move backward, when there are no obstacles', () => {
-    // Facing North
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.NORTH } },
-      actions.moveBackward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 0], direction: Direction.NORTH } }
+  it('schedules a MOVE action in response to a MOVE_BACKWARD action, iff the move is valid', () => {
+    (isMoveValid as jest.Mock).mockReturnValueOnce(true);
+    expect(
+      gameReducer(baseState, actions.moveBackward())
+    ).toEqual(
+      loop(baseState, Cmd.action(actions.move(Direction.SOUTH)))
     );
 
-    // Facing East
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.EAST } },
-      actions.moveBackward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [0, 1], direction: Direction.EAST } }
-    );
-
-    // Facing South
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.SOUTH } },
-      actions.moveBackward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [1, 2], direction: Direction.SOUTH } }
-    );
-
-    // Facing West
-    expect(gameReducer(
-      { ...empty3x3Map, robot: { position: [1, 1], direction: Direction.WEST } },
-      actions.moveBackward()
-    )).toEqual(
-      { ...empty3x3Map, robot: { position: [2, 1], direction: Direction.WEST } }
+    (isMoveValid as jest.Mock).mockReturnValueOnce(false);
+    expect(
+      gameReducer(baseState, actions.moveBackward()
+      )).toEqual(
+        baseState
     );
   });
 
-  it('does not allow robot to move outside the map', () => {
-    {
-      // moving forward
-      const states: LevelMap[] = [
-        { ...empty3x3Map, robot: { position: [1, 2], direction: Direction.NORTH } },
-        { ...empty3x3Map, robot: { position: [1, 0], direction: Direction.SOUTH } },
-        { ...empty3x3Map, robot: { position: [2, 1], direction: Direction.EAST } },
-        { ...empty3x3Map, robot: { position: [0, 1], direction: Direction.WEST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveForward())).toEqual(state);
-      });
-    }
-    {
-      // moving backward
-      const states: LevelMap[] = [
-        { ...empty3x3Map, robot: { position: [1, 2], direction: Direction.SOUTH } },
-        { ...empty3x3Map, robot: { position: [1, 0], direction: Direction.NORTH } },
-        { ...empty3x3Map, robot: { position: [2, 1], direction: Direction.WEST } },
-        { ...empty3x3Map, robot: { position: [0, 1], direction: Direction.EAST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveBackward())).toEqual(state);
-      });
-    }
+  it('updates robot position, when it moves', () => {
+    const mapBefore: LevelMap = {
+      ...simpleMap,
+      targets: [[0, 0]],
+      robot: {
+        ...simpleMap.robot,
+        position: [0, 0]
+      }
+    };
+    const mapAfter: LevelMap = {
+      ...mapBefore,
+      robot: {
+        ...mapBefore.robot,
+        position: [0, 1]
+      }
+    };
+    expect(
+      gameReducer({ ...baseState, map: mapBefore }, actions.move(Direction.NORTH))
+    ).toEqual(
+      { ...baseState, map: mapAfter }
+    );
   });
 
-  it('does not allow robot to fall into holes', () => {
-    {
-      // moving forward
-      const states: LevelMap[] = [
-        { ...mapWithHole, robot: { position: [1, 0], direction: Direction.NORTH } },
-        { ...mapWithHole, robot: { position: [1, 2], direction: Direction.SOUTH } },
-        { ...mapWithHole, robot: { position: [0, 1], direction: Direction.EAST } },
-        { ...mapWithHole, robot: { position: [2, 1], direction: Direction.WEST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveForward())).toEqual(state);
-      });
-    }
-    {
-      // moving backward
-      const states: LevelMap[] = [
-        { ...mapWithHole, robot: { position: [1, 0], direction: Direction.SOUTH } },
-        { ...mapWithHole, robot: { position: [1, 2], direction: Direction.NORTH } },
-        { ...mapWithHole, robot: { position: [0, 1], direction: Direction.WEST } },
-        { ...mapWithHole, robot: { position: [2, 1], direction: Direction.EAST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveBackward())).toEqual(state);
-      });
-    }
+  it('updates boxes\' positions, when robot MOVEs', () => {
+    const mapBefore: LevelMap = {
+      ...simpleMap,
+      tiles: [
+        [{ height: 1, objects: [] }, { height: 1, objects: [{ type: 'box'}] }, { height: 1, objects: [] }]
+      ],
+      robot: {
+        ...simpleMap.robot,
+        position: [0, 0]
+      }
+    };
+    const mapAfter: LevelMap = {
+      ...mapBefore,
+      tiles: [
+        [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }]
+      ],
+      robot: {
+        ...mapBefore.robot,
+        position: [0, 1]
+      }
+    };
+    expect(
+      gameReducer({ ...baseState, map: mapBefore }, actions.move(Direction.NORTH))
+    ).toEqual(
+      { ...baseState, map: mapAfter }
+    );
   });
 
-  it('allows robot to move down', () => {
-    const moveForward = actions.moveForward();
-    const moveBackward = actions.moveBackward();
-    const testCases = [
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.NORTH },
-        after: { position: [1, 2] as Point2D, direction: Direction.NORTH },
-        action: moveForward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.SOUTH },
-        after: { position: [1, 0] as Point2D, direction: Direction.SOUTH },
-        action: moveForward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.EAST },
-        after: { position: [2, 1] as Point2D, direction: Direction.EAST },
-        action: moveForward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.WEST },
-        after: { position: [0, 1] as Point2D, direction: Direction.WEST },
-        action: moveForward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.SOUTH },
-        after: { position: [1, 2] as Point2D, direction: Direction.SOUTH },
-        action: moveBackward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.NORTH },
-        after: { position: [1, 0] as Point2D, direction: Direction.NORTH },
-        action: moveBackward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.WEST },
-        after: { position: [2, 1] as Point2D, direction: Direction.WEST },
-        action: moveBackward
-      },
-      {
-        before: { position: [1, 1] as Point2D, direction: Direction.EAST },
-        after: { position: [0, 1] as Point2D, direction: Direction.EAST },
-        action: moveBackward
-      },
-    ];
-
-    testCases.forEach(({ before, action, after }) => {
-      const stateBefore = { ...mapWithObstacle, robot: before };
-      const stateAfter = { ...mapWithObstacle, robot: after };
-
-      expect(gameReducer(stateBefore, action)).toEqual(stateAfter);
-    });
-  });
-
-  it('does not allow robot to move up', () => {
-    {
-      // moving forward
-      const states: LevelMap[] = [
-        { ...mapWithObstacle, robot: { position: [1, 0], direction: Direction.NORTH } },
-        { ...mapWithObstacle, robot: { position: [1, 2], direction: Direction.SOUTH } },
-        { ...mapWithObstacle, robot: { position: [0, 1], direction: Direction.EAST } },
-        { ...mapWithObstacle, robot: { position: [2, 1], direction: Direction.WEST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveForward())).toEqual(state);
-      });
-    }
-    {
-      // moving backward
-      const states: LevelMap[] = [
-        { ...mapWithObstacle, robot: { position: [1, 0], direction: Direction.SOUTH } },
-        { ...mapWithObstacle, robot: { position: [1, 2], direction: Direction.NORTH } },
-        { ...mapWithObstacle, robot: { position: [0, 1], direction: Direction.WEST } },
-        { ...mapWithObstacle, robot: { position: [2, 1], direction: Direction.EAST } }
-      ];
-
-      states.forEach(state => {
-        expect(gameReducer(state, actions.moveBackward())).toEqual(state);
-      });
-    }
-  });
-
-  it('allows robot to push boxes through flat surfaces', () => {
-    const stateBefore: State = {
+  it('triggers a FINISH_LEVEL action, when a MOVE clears the level', () => {
+    const mapBefore: LevelMap = {
       width: 1,
       height: 3,
-      targets: [],
       tiles: [
-        [{ height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }, { height: 1, objects: [] }]
+        [{ height: 1, objects: [] }, { height: 1, objects: [{ type: 'box'}] }, { height: 1, objects: [] }]
       ],
+      targets: [[0, 2]],
       robot: {
         position: [0, 0],
         direction: Direction.NORTH
       }
     };
-    const stateAfter: State = {
-      ...stateBefore,
+    const mapAfter: LevelMap = {
+      ...mapBefore,
       tiles: [
         [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [{ type: 'box' }] }]
       ],
       robot: {
-        position: [0, 1],
-        direction: Direction.NORTH
+        ...mapBefore.robot,
+        position: [0, 1]
       }
     };
-    expect(gameReducer(stateBefore, actions.moveForward())).toEqual(stateAfter);
+    expect(
+      gameReducer({ ...baseState, map: mapBefore }, actions.move(Direction.NORTH))
+    ).toEqual(
+      loop(
+        { ...baseState, map: mapAfter },
+        Cmd.action(actions.finishLevel())
+      )
+    );
+  });
+
+  it('updates isFinished and triggers a levels/FINISH_LEVEL, when reducing a game/FINISH_LEVEL', () => {
+    const stateBefore: State = { ...baseState, finished: false, level: 42 };
+    const stateAfter: State = { ...stateBefore, finished: true };
+    expect(
+      gameReducer(stateBefore, actions.finishLevel())
+    ).toEqual(
+      loop(
+        stateAfter,
+        Cmd.action(levelsActions.finishLevel(42))
+      )
+    );
   });
 
   it('ignores unknown actions', () => {
-    const stateBefore = empty3x3Map;
+    const stateBefore = baseState;
     const action = { type: 'any unknown action' };
     const stateAfter = gameReducer(stateBefore, action as any);
 

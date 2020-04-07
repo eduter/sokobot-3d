@@ -1,51 +1,63 @@
+import { Direction } from '../../../mechanics/directions';
 import { LevelMap } from '../../../mechanics/types';
+import { Action } from '../../../utils/types';
 import { ActionTypes } from './types';
 
 
-interface StartGameAction {
-  type: ActionTypes.START_GAME;
-  payload: LevelMap;
-}
+export type GameAction = (
+  Action<ActionTypes.START_LEVEL, { level: number, map: LevelMap }>
+  | Action<ActionTypes.FINISH_LEVEL>
+  | Action<ActionTypes.MOVE_FORWARD>
+  | Action<ActionTypes.MOVE_BACKWARD>
+  | Action<ActionTypes.TURN_LEFT>
+  | Action<ActionTypes.TURN_RIGHT>
+  | Action<ActionTypes.MOVE, Direction>
+);
 
-interface MoveAction {
-  type: ActionTypes.MOVE_FORWARD
-      | ActionTypes.MOVE_BACKWARD
-      | ActionTypes.TURN_RIGHT
-      | ActionTypes.TURN_LEFT
-      ;
-}
-
-export type Action = StartGameAction | MoveAction;
-
-
-function startGame(map: LevelMap): Action {
+function startLevel(level: number, map: LevelMap): GameAction {
   return {
-    type: ActionTypes.START_GAME,
-    payload: map
+    type: ActionTypes.START_LEVEL,
+    payload: {
+      level,
+      map
+    }
   };
 }
 
-function moveForward(): Action {
+function finishLevel(): GameAction {
+  return { type: ActionTypes.FINISH_LEVEL };
+}
+
+function moveForward(): GameAction {
   return { type: ActionTypes.MOVE_FORWARD };
 }
 
-function moveBackward(): Action {
+function moveBackward(): GameAction {
   return { type: ActionTypes.MOVE_BACKWARD };
 }
 
-function turnRight(): Action {
+function turnRight(): GameAction {
   return { type: ActionTypes.TURN_RIGHT };
 }
 
-function turnLeft(): Action {
+function turnLeft(): GameAction {
   return { type: ActionTypes.TURN_LEFT };
+}
+
+function move(direction: Direction): GameAction {
+  return {
+    type: ActionTypes.MOVE,
+    payload: direction
+  };
 }
 
 
 export {
-  startGame,
+  startLevel,
+  finishLevel,
   moveForward,
   moveBackward,
   turnRight,
-  turnLeft
+  turnLeft,
+  move
 };

@@ -1,9 +1,9 @@
-import { State } from '../state/ducks/game/types';
 import { Direction } from './directions';
 import isLevelCleared from './isLevelCleared';
+import { LevelMap } from './types';
 
 
-const baseMap: State = {
+const baseMap: LevelMap = {
   height: 3,
   width: 3,
   targets: [],
@@ -17,7 +17,7 @@ const baseMap: State = {
 describe('isLevelCleared', () => {
 
   it('is false, when there is a target without a box on it', () => {
-    const map: State = {
+    const map: LevelMap = {
       ...baseMap,
       tiles: [
         [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
@@ -30,7 +30,7 @@ describe('isLevelCleared', () => {
   });
 
   it('is false, when there is a box on a tile without a target', () => {
-    const map: State = {
+    const map: LevelMap = {
       ...baseMap,
       tiles: [
         [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
@@ -43,7 +43,7 @@ describe('isLevelCleared', () => {
   });
 
   it('is true, when there is one box on each target', () => {
-    const map: State = {
+    const map: LevelMap = {
       ...baseMap,
       tiles: [
         [{ height: 1, objects: [{ type: 'box' }] }, { height: 1, objects: [] }, { height: 1, objects: [] }],
@@ -56,7 +56,7 @@ describe('isLevelCleared', () => {
   });
 
   it('is true, even when there is more than one box on each target', () => {
-    const map: State = {
+    const map: LevelMap = {
       ...baseMap,
       tiles: [
         [{ height: 1, objects: [] }, { height: 1, objects: [] }, { height: 1, objects: [] }],

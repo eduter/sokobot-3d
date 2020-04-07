@@ -1,17 +1,10 @@
 import { ActionTypes } from './types';
+import { Action } from '../../../utils/types';
 
 
-type FinishLevelAction = {
-  type: ActionTypes.FINISH_LEVEL;
-  payload: {
-    level: number;
-  }
-}
+export type LevelsAction = Action<ActionTypes.FINISH_LEVEL, { level: number }>;
 
-export type Action = FinishLevelAction;
-
-
-function finishLevel(level: number): FinishLevelAction {
+function finishLevel(level: number): LevelsAction {
   return {
     type: ActionTypes.FINISH_LEVEL,
     payload: {

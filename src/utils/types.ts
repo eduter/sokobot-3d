@@ -1,3 +1,6 @@
+import { Loop } from 'redux-loop';
+
+
 /**
  * Generic type for when a function may return a value or not.
  */
@@ -14,3 +17,18 @@ function assertNever(value: never) {
 export {
   assertNever
 };
+
+/**
+ * Type for Redux actions.
+ */
+export type Action<T, P = void> = P extends void
+  ? { type: T }
+  : { type: T, payload: P };
+
+/**
+ * Type for reducers using redux-loop.
+ *
+ * @param HA - type of actions the reducer handles
+ * @param TA - type of actions the reducer may trigger
+ */
+export type Reducer<S, HA extends Action<any, any>, LA extends Action<any, any> = HA> = (state: S | undefined, action: HA) => S | Loop<S, LA>;
