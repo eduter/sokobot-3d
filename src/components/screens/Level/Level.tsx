@@ -6,10 +6,11 @@ import { Redirect, RouteComponentProps } from 'react-router';
 import { Dispatch } from 'redux';
 import levels from '../../../data/levels.json';
 import { levelsActions, levelsSelectors } from '../../../state/ducks/levels';
+import { State } from '../../../state/types';
 import Screen from '../../Screen';
 import MyCanvas from '../../webgl/MyCanvas';
 import LevelClearedDialog from './LevelClearedDialog';
-import { State } from '../../../state/types';
+import Controls from './Controls';
 
 
 interface MatchParams {
@@ -31,6 +32,7 @@ function Level({ match, isUnlocked, finishLevel }: LevelProps) {
     <Screen title={levelData.name}>
       <Button label="Finish level" onClick={() => finishLevel(level)} />
       <MyCanvas/>
+      <Controls/>
       <LevelClearedDialog nextLevel={nextLevel}/>
     </Screen>
   );
