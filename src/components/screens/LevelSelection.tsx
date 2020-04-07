@@ -18,10 +18,10 @@ interface LevelSelectionProps {
 function LevelSelection({ isUnlocked, selectLevel }: LevelSelectionProps) {
   return (
     <Screen title="Select Level">
-      {levels.map(({ name }, level) => (
+      {levels.map((_, level) => (
         isUnlocked(level)
-          ? <Button key={level} label={name} icon={<Unlock/>} onClick={() => selectLevel(level)}/>
-          : <Button key={level} label={name} icon={<Lock/>} disabled={true}/>
+          ? <Button key={level} label={`Level ${level + 1}`} icon={<Unlock/>} onClick={() => selectLevel(level)}/>
+          : <Button key={level} label={`Level ${level + 1}`} icon={<Lock/>} disabled={true}/>
       ))}
     </Screen>
   );
