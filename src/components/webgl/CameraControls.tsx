@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { extend, ReactThreeFiber, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { gameSelectors } from '../../state/ducks/game';
+import { State } from '../../state/types';
 
 
 extend({ OrbitControls });
@@ -13,11 +16,43 @@ declare global {
   }
 }
 
-function CameraControls() {
-  const { camera, gl } = useThree();
-
-  return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2}/>;
+interface CameraControlsProps extends ConnectedProps<typeof connector> {
 }
 
+function CameraControls({ initialPosition }: CameraControlsProps) {
+  const { camera, gl } = useThree();
+  const controls = useRef<OrbitControls>();
 
-export default CameraControls;
+  useEffect(() => {
+    if (initialPosition) {
+      camera.position.set(...initialPosition);
+      if (controls.current) {
+        controls.current.update();
+      }
+    }
+  }, []);
+
+  return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2} ref={controls}/>;
+}
+
+function mapStateToProps(state: State) {
+  return {
+    // TODO: find a proper way to determine a good initial camera position
+    initialPosition: (() => {
+      try {
+        const mapDimensions = gameSelectors.getMapDimensions(state.game);
+        const n = Math.max(3, Math.max(...mapDimensions) * 0.7);
+
+        return [n, n, n] as const;
+      } catch {
+      }
+      return undefined;
+    })()
+  };
+}
+
+const connector = connect(mapStateToProps);
+
+
+export default connector(CameraControls);
+export { CameraControls };
