@@ -1,10 +1,14 @@
 import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { extend, ReactThreeFiber, useThree } from 'react-three-fiber';
+import { extend, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { gameSelectors } from '../../state/ducks/game';
 import { State } from '../../state/types';
 import useEffectOnce from '../../utils/useEffectOnce';
+
+// False positive, when only the type is needed
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { ReactThreeFiber } from 'react-three-fiber';
 
 
 extend({ OrbitControls });
