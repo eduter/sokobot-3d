@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { extend, ReactThreeFiber, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { gameSelectors } from '../../state/ducks/game';
 import { State } from '../../state/types';
+import useEffectOnce from '../../utils/useEffectOnce';
 
 
 extend({ OrbitControls });
@@ -23,14 +24,14 @@ function CameraControls({ initialPosition }: CameraControlsProps) {
   const { camera, gl } = useThree();
   const controls = useRef<OrbitControls>();
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (initialPosition) {
       camera.position.set(...initialPosition);
       if (controls.current) {
         controls.current.update();
       }
     }
-  }, []);
+  });
 
   return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2} ref={controls}/>;
 }
