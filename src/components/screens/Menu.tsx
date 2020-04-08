@@ -14,7 +14,7 @@ interface MenuProps {
 
 function Menu({ startGame, openSettings }: MenuProps) {
   return (
-    <Screen title="Sokobot 3D">
+    <Screen title="Sokobot">
       <Button icon={<Play/>} label="Start Game" onClick={startGame}/>
       <Button icon={<SettingsOption/>} label="Settings" onClick={openSettings}/>
     </Screen>
