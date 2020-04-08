@@ -15,7 +15,7 @@ function MyCanvas() {
           <Provider store={store}>
             <CameraControls/>
             <group rotation={[-Math.PI / 2, 0, 0]}>
-              <AxesHelper scale={[10, 10, 10]}/>
+              {process.env.NODE_ENV !== 'production' && <AxesHelper scale={[10, 10, 10]}/>}
               <ambientLight intensity={0.3}/>
               <spotLight
                 color={new Color('#fffda7')}
