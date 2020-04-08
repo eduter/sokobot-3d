@@ -1,6 +1,7 @@
 {
   "name": "sokobot-3d",
   "version": "0.1.0",
+  "homepage": "https://eduter.github.io/sokobot-3d/",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

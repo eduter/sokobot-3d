@@ -13,7 +13,7 @@ const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ??
 
 function configureStore() {
   const persistedState = loadPersistedState(PERSISTENT_SLICES);
-  const history = createBrowserHistory();
+  const history = createBrowserHistory({ basename: 'sokobot-3d' });
   const enhancer = composeEnhancers(
     applyMiddleware(routerMiddleware(history)),
     install()
