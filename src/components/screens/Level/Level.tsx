@@ -8,6 +8,7 @@ import Screen from '../../Screen';
 import MyCanvas from '../../webgl/MyCanvas';
 import Controls from './Controls';
 import LevelClearedDialog from './LevelClearedDialog';
+import RestartButton from './RestartButton';
 
 
 interface MatchParams {
@@ -29,6 +30,7 @@ function Level({ match, isUnlocked }: LevelProps) {
     <Screen title={levelData.name}>
       <MyCanvas/>
       <Controls/>
+      <RestartButton/>
       <LevelClearedDialog nextLevel={nextLevel}/>
     </Screen>
   );
