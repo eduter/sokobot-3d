@@ -17,7 +17,7 @@ const DialogWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 1em;
   h1 {
     text-align: center;
