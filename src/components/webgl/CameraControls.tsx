@@ -37,7 +37,7 @@ function CameraControls({ initialPosition }: CameraControlsProps) {
     }
   });
 
-  return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2} ref={controls}/>;
+  return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2} enablePan={false} ref={controls}/>;
 }
 
 function mapStateToProps(state: State) {
