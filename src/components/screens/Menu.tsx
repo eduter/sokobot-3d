@@ -2,14 +2,12 @@ import { push } from 'connected-react-router';
 import { Button } from 'grommet';
 import { Play, SettingsOption } from 'grommet-icons';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import Screen from '../Screen';
 
 
-interface MenuProps {
-  startGame: () => void,
-  openSettings: () => void
+interface MenuProps extends ConnectedProps<typeof connector> {
 }
 
 function Menu({ startGame, openSettings }: MenuProps) {
@@ -28,4 +26,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(Menu);
+const connector = connect(null, mapDispatchToProps);
+
+
+export default connector(Menu);
+export { Menu };

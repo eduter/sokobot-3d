@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
-import { gameActions } from '../../state/ducks/game';
+import { connect, ConnectedProps } from 'react-redux';
+import { gameActions, gameSelectors } from '../../state/ducks/game';
+import { State } from '../../state/types';
+import { directionToAngle } from '../../mechanics/directions';
 
 
-interface RobotProps {
-  position: [number, number, number];
-  direction: number;
-  moveForward(): void;
-  moveBackward(): void;
-  turnRight(): void;
-  turnLeft(): void;
+interface RobotProps extends ConnectedProps<typeof connector> {
 }
 
 function Robot({ position, direction, ...actions }: RobotProps) {
@@ -46,22 +42,24 @@ function Robot({ position, direction, ...actions }: RobotProps) {
   );
 }
 
+function mapStateToProps(state: State) {
+  return {
+    position: gameSelectors.getRobotPosition(state.game),
+    direction: directionToAngle(gameSelectors.getRobotDirection(state.game))
+  }
+}
+
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    moveForward() {
-      dispatch(gameActions.moveForward());
-    },
-    moveBackward() {
-      dispatch(gameActions.moveBackward());
-    },
-    turnRight() {
-      dispatch(gameActions.turnRight());
-    },
-    turnLeft() {
-      dispatch(gameActions.turnLeft());
-    }
+    moveForward: () => dispatch(gameActions.moveForward()),
+    moveBackward: () => dispatch(gameActions.moveBackward()),
+    turnRight: () => dispatch(gameActions.turnRight()),
+    turnLeft: () => dispatch(gameActions.turnLeft())
   };
 }
 
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-export default connect(null, mapDispatchToProps)(Robot);
+
+export default connector(Robot);
+export { Robot };

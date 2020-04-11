@@ -39,23 +39,15 @@ interface IconButtonProps {
 }
 
 function IconButton(props: IconButtonProps) {
-  return <Button {...props} plain={false} margin="xxsmall"/>
+  return <Button {...props} plain={false} margin="xxsmall"/>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    moveForward() {
-      dispatch(gameActions.moveForward());
-    },
-    moveBackward() {
-      dispatch(gameActions.moveBackward());
-    },
-    turnLeft() {
-      dispatch(gameActions.turnLeft());
-    },
-    turnRight() {
-      dispatch(gameActions.turnRight());
-    },
+    moveForward: () => dispatch(gameActions.moveForward()),
+    moveBackward: () => dispatch(gameActions.moveBackward()),
+    turnLeft: () => dispatch(gameActions.turnLeft()),
+    turnRight: () => dispatch(gameActions.turnRight())
   };
 }
 

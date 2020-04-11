@@ -1,14 +1,13 @@
-import { Previous } from 'grommet-icons';
-import { Button } from 'grommet';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { goBack } from 'connected-react-router';
+import { Button } from 'grommet';
+import { Previous } from 'grommet-icons';
 import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 
 
-type BackButtonProps = {
-  goBack: () => void
-};
+interface BackButtonProps extends ConnectedProps<typeof connector> {
+}
 
 function BackButton({ goBack }: BackButtonProps) {
   return <Button icon={<Previous/>} label="Back" onClick={() => goBack()}/>;
@@ -16,10 +15,12 @@ function BackButton({ goBack }: BackButtonProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    goBack() {
-      dispatch(goBack());
-    }
+    goBack: () => dispatch(goBack())
   };
 }
 
-export default connect(null, mapDispatchToProps)(BackButton);
+const connector = connect(null, mapDispatchToProps);
+
+
+export default connector(BackButton);
+export { BackButton };

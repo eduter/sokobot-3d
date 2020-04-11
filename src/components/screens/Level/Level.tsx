@@ -21,6 +21,7 @@ interface LevelProps extends RouteComponentProps<MatchParams>, ConnectedProps<ty
 function Level({ match, isUnlocked }: LevelProps) {
   const level = +match.params.level;
   const levelData = levels[level];
+  //TODO: create levelsSelectors.getNextLevel() and move this to LevelClearedDialog
   const nextLevel = levels[level + 1] ? level + 1 : undefined;
 
   if (!levelData || !isUnlocked(level)) {

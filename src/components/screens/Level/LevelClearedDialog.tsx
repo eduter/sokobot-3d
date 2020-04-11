@@ -25,7 +25,7 @@ const DialogWrapper = styled.div`
 `;
 
 function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSelection }: LevelClearedDialogProps) {
-  if (isLevelCleared()) {
+  if (isLevelCleared) {
     return (
       <DialogWrapper>
         <Box width="medium" gap="small" align="stretch" pad="small">
@@ -41,18 +41,14 @@ function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSel
 
 function mapStateToProps(state: State) {
   return {
-    isLevelCleared: () => state.game.finished
+    isLevelCleared: state.game.finished
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    goToLevel(level: number) {
-      dispatch(push(`/level/${level}`));
-    },
-    goToLevelSelection() {
-      dispatch(push('/select-level'));
-    }
+    goToLevel: (level: number) => dispatch(push(`/level/${level}`)),
+    goToLevelSelection: () => dispatch(push('/select-level'))
   };
 }
 
