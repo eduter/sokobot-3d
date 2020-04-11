@@ -1,32 +1,27 @@
-import { ActionTypes } from './types';
 import { Action } from '../../../utils/types';
+import { ActionTypes } from './types';
 
 
 export type LevelsAction = (
-  Action<ActionTypes.START_LEVEL, { level: number }>
-  | Action<ActionTypes.FINISH_LEVEL, { level: number }>
+  Action<ActionTypes.SELECT_LEVEL, { level: number }>
+  | Action<ActionTypes.CLEAR_LEVEL>
 );
 
-function startLevel(level: number): LevelsAction {
+function selectLevel(level: number): LevelsAction {
   return {
-    type: ActionTypes.START_LEVEL,
+    type: ActionTypes.SELECT_LEVEL,
     payload: {
       level
     }
   };
 }
 
-function finishLevel(level: number): LevelsAction {
-  return {
-    type: ActionTypes.FINISH_LEVEL,
-    payload: {
-      level
-    }
-  };
+function clearLevel(): LevelsAction {
+  return { type: ActionTypes.CLEAR_LEVEL };
 }
 
 
 export {
-  startLevel,
-  finishLevel
+  selectLevel,
+  clearLevel
 };

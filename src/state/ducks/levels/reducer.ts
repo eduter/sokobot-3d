@@ -4,7 +4,7 @@ import levels from '../../../data/levels.json';
 import { LevelMap } from '../../../mechanics/types';
 import { assertNever, Maybe, Reducer } from '../../../utils/types';
 import { gameActions } from '../game';
-import { LevelsAction, startLevel } from './actions';
+import { LevelsAction, selectLevel } from './actions';
 import { isUnlocked } from './selectors';
 import { ActionTypes, State } from './types';
 
@@ -24,30 +24,27 @@ const levelsReducer: Reducer<State, HandledAction, TriggeredAction> = (state = I
       if (level !== undefined) {
         return loop(
           state,
-          Cmd.action(startLevel(level))
+          Cmd.action(selectLevel(level))
         );
       }
       return state;
     }
-    case ActionTypes.START_LEVEL: {
+    case ActionTypes.SELECT_LEVEL: {
       const { level } = action.payload;
       const levelData = levels[level];
 
       if (levelData && isUnlocked(state, level)) {
         return loop(
-          state,
-          Cmd.action(gameActions.startLevel(level, levelData.map as unknown as LevelMap))
+          { ...state, selectedLevel: level },
+          Cmd.action(gameActions.startLevel(levelData.map as unknown as LevelMap))
         );
       }
       return state;
     }
-    case ActionTypes.FINISH_LEVEL:
-      if (action.payload.level === state.unlockedLevels - 1) {
-        return {
-          unlockedLevels: state.unlockedLevels + 1
-        };
-      }
-      return state;
+    case ActionTypes.CLEAR_LEVEL:
+      return {
+        unlockedLevels: state.unlockedLevels + (state.selectedLevel === state.unlockedLevels - 1 ? 1 : 0)
+      };
     default:
       assertNever(action);
       return state;

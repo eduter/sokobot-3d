@@ -12,7 +12,6 @@ export enum ActionTypes {
 }
 
 export interface State {
-  level: number;
   finished: boolean;
   map?: LevelMap;
 }

@@ -2,10 +2,11 @@ import { DeepReadonly } from 'utility-types';
 
 
 export enum ActionTypes {
-  START_LEVEL = 'levels/START_LEVEL',
-  FINISH_LEVEL = 'levels/FINISH_LEVEL',
+  SELECT_LEVEL = 'levels/SELECT_LEVEL',
+  CLEAR_LEVEL = 'levels/CLEAR_LEVEL',
 }
 
 export type State = DeepReadonly<{
   readonly unlockedLevels: number;
+  readonly selectedLevel?: number;
 }>;

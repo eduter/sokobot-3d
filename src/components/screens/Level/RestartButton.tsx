@@ -4,8 +4,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import { gameSelectors } from '../../../state/ducks/game';
-import { levelsActions } from '../../../state/ducks/levels';
+import { levelsActions, levelsSelectors } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 
 
@@ -29,13 +28,13 @@ const Wrapper = styled.div`
 
 function mapStateToProps(state: State) {
   return {
-    level: gameSelectors.getCurrentLevel(state.game)
+    level: levelsSelectors.getSelectedLevel(state.levels)!
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    restart: (level: number) => dispatch(levelsActions.startLevel(level))
+    restart: (level: number) => dispatch(levelsActions.selectLevel(level))
   };
 }
 

@@ -26,11 +26,6 @@ function getRobotDirection(state: State): Direction {
   return state.map.robot.direction;
 }
 
-// TODO: move level to the levels duck 🤦
-function getCurrentLevel(state: State) {
-  return state.level;
-}
-
 function getMapDimensions(state: State): [number, number] {
   if (!state.map) {
     throw Error('No map defined.');
@@ -59,7 +54,6 @@ function getTilesInfo(state: State): TileInfo[] {
 
 
 export {
-  getCurrentLevel,
   getRobotPosition,
   getRobotDirection,
   getMapDimensions,

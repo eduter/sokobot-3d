@@ -5,7 +5,7 @@ import { ActionTypes } from './types';
 
 
 export type GameAction = (
-  Action<ActionTypes.START_LEVEL, { level: number, map: LevelMap }>
+  Action<ActionTypes.START_LEVEL, { map: LevelMap }>
   | Action<ActionTypes.FINISH_LEVEL>
   | Action<ActionTypes.MOVE_FORWARD>
   | Action<ActionTypes.MOVE_BACKWARD>
@@ -14,11 +14,10 @@ export type GameAction = (
   | Action<ActionTypes.MOVE, Direction>
 );
 
-function startLevel(level: number, map: LevelMap): GameAction {
+function startLevel(map: LevelMap): GameAction {
   return {
     type: ActionTypes.START_LEVEL,
     payload: {
-      level,
       map
     }
   };

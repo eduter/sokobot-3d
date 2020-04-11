@@ -23,7 +23,6 @@ const simpleMap: LevelMap = {
   }
 };
 const baseState: State = {
-  level: 1,
   finished: false,
   map: simpleMap
 };
@@ -37,7 +36,6 @@ describe('gameReducer', () => {
 
   it('initializes the map, when a game (level) starts', () => {
     const stateBefore: State = {
-      level: 2,
       finished: true,
       map: {
         ...simpleMap,
@@ -45,15 +43,14 @@ describe('gameReducer', () => {
       }
     };
     const expectedStateAfter: State = {
-      level: 3,
       finished: false,
       map: simpleMap
     };
-    expect(gameReducer(stateBefore, actions.startLevel(3, simpleMap))).toEqual(expectedStateAfter);
+    expect(gameReducer(stateBefore, actions.startLevel(simpleMap))).toEqual(expectedStateAfter);
   });
 
   it('ignores all actions except START_LEVEL, before a map is selected', () => {
-    const stateBefore: State = { level: -1, finished: false };
+    const stateBefore: State = { finished: false };
 
     expect(gameReducer(stateBefore, actions.turnRight())).toBe(stateBefore);
     expect(gameReducer(stateBefore, actions.turnLeft())).toBe(stateBefore);
@@ -195,15 +192,15 @@ describe('gameReducer', () => {
     );
   });
 
-  it('updates isFinished and triggers a levels/FINISH_LEVEL, when reducing a game/FINISH_LEVEL', () => {
-    const stateBefore: State = { ...baseState, finished: false, level: 42 };
+  it('updates isFinished and triggers levelsActions.clearLevel, when reducing a FINISH_LEVEL', () => {
+    const stateBefore: State = { ...baseState, finished: false };
     const stateAfter: State = { ...stateBefore, finished: true };
     expect(
       gameReducer(stateBefore, actions.finishLevel())
     ).toEqual(
       loop(
         stateAfter,
-        Cmd.action(levelsActions.finishLevel(42))
+        Cmd.action(levelsActions.clearLevel())
       )
     );
   });

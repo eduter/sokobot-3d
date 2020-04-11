@@ -18,11 +18,10 @@ import { ActionTypes, State } from './types';
 
 
 const INITIAL_STATE: State = {
-  level: -1,
   finished: false
 };
 
-type TriggeredAction = GameAction | ReturnType<typeof levelsActions.finishLevel>;
+type TriggeredAction = GameAction | ReturnType<typeof levelsActions.clearLevel>;
 
 const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIAL_STATE, action) => {
   if (action.type === ActionTypes.START_LEVEL) {
@@ -89,7 +88,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
       case ActionTypes.FINISH_LEVEL:
         return loop(
           { ...state, finished: true },
-          Cmd.action(levelsActions.finishLevel(state.level))
+          Cmd.action(levelsActions.clearLevel())
         );
       default:
         assertNever(action);
