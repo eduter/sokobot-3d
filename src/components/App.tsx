@@ -1,14 +1,14 @@
 import React from 'react';
 import { Grommet, Main, ThemeType } from 'grommet';
-import { configureStore } from './state/store';
+import { configureStore } from '../state/store';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Redirect, Route, Switch } from 'react-router';
-import Settings from './components/screens/Settings';
-import Menu from './components/screens/Menu';
-import LevelSelection from './components/screens/LevelSelection';
-import Level from './components/screens/Level';
-import theme from './theme';
+import Settings from './screens/Settings';
+import Menu from './screens/Menu';
+import LevelSelection from './screens/LevelSelection';
+import Level from './screens/Level';
+import theme from '../theme';
 
 
 const { store, history } = configureStore();
