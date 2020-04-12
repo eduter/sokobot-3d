@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+    // Redirects to the root of the project in case of a 404 (in a SPA on gh-pages, any deep linking results in a 404)
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 2).join('/')
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
