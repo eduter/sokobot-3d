@@ -7,8 +7,7 @@
 // existing tabs open on the page have been closed, since previously cached
 // resources are updated in the background.
 
-// To learn more about the benefits of this model and instructions on how to
-// opt-in, read https://bit.ly/CRA-PWA
+// CRA docs about PWA: https://create-react-app.dev/docs/making-a-progressive-web-app/
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
