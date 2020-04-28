@@ -19,7 +19,7 @@ export interface Tile {
   readonly objects: MovableObject[];
 }
 
-type MovableObject = Box;// | Ramp;
+export type MovableObject = Box;// | Ramp;
 
 interface Box {
   readonly type: 'box';

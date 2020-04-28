@@ -1,61 +1,101 @@
 import { Direction } from '../../../mechanics/directions';
-import { Tile } from '../../../mechanics/types';
+import { LevelMap, MovableObject } from '../../../mechanics/types';
 import { State } from './types';
 
 
-export interface TileInfo extends Tile {
+interface TileStaticInfo {
   x: number;
   y: number;
-  target: boolean;
+  height: number;
+  hasTarget: boolean;
 }
 
-function getRobotPosition(state: State): [number, number, number] {
-  if (!state.map) {
-    throw Error('Trying to get robot\'s position before starting a game.');
-  }
-  const [x, y] = state.map.robot.position;
-  const height = state.map.tiles[x][y].height + state.map.tiles[x][y].objects.length + 1;
+interface MovableObjectsInfo extends MovableObject {
+  position: [number, number, number];
+}
 
-  return [x, y, height];
+
+function getRobotPosition(state: State): [number, number, number] {
+  assertMapDefined(state);
+
+  const [x, y] = state.map.robot.position;
+  const z = state.map.tiles[x][y].height + state.map.tiles[x][y].objects.length + 1;
+
+  return [x, y, z];
 }
 
 function getRobotDirection(state: State): Direction {
-  if (!state.map) {
-    throw Error('Trying to get robot\'s direction before starting a game.');
-  }
+  assertMapDefined(state);
   return state.map.robot.direction;
 }
 
+function getRobotKey(state: State): string {
+  assertMapDefined(state);
+  return state.map.robot.key!;
+}
+
 function getMapDimensions(state: State): [number, number] {
-  if (!state.map) {
-    throw Error('No map defined.');
-  }
+  assertMapDefined(state);
   return [state.map.width, state.map.height];
 }
 
-function getTilesInfo(state: State): TileInfo[] {
-  if (!state.map) {
-    throw Error('No map defined.');
-  }
-  const targets = new Set<string>();
+/**
+ * Lists the static info about all map tiles.
+ */
+function getTilesInfo(state: State): TileStaticInfo[] {
+  assertMapDefined(state);
+
+  const { map: { tiles }} = state;
+  const targets = new Set<string>(state.map.targets.map(point => point.join('-')));
   const tilesInfo = [];
 
-  state.map.targets.forEach(point => {
-    targets.add(point.join(','));
-  });
+  for (let x = 0; x < tiles.length; x++) {
+    for (let y = 0; y < tiles[x].length; y++) {
+      const height = tiles[x][y].height;
+      const hasTarget = targets.has(x + '-' + y);
 
-  for (let x = 0; x < state.map.width; x++) {
-    for (let y = 0; y < state.map.height; y++) {
-      tilesInfo.push({ x, y, target: targets.has(`${x},${y}`), ...state.map.tiles[x][y] });
+      tilesInfo.push({ x, y, height, hasTarget });
     }
   }
   return tilesInfo;
+}
+
+/**
+ * Lists all map objects that can be moved (pushed).
+ */
+function getMovableObjectsInfo(state: State): MovableObjectsInfo[] {
+  assertMapDefined(state);
+
+  const { map: { tiles }} = state;
+  const allObjects = [];
+
+  for (let x = 0; x < tiles.length; x++) {
+    for (let y = 0; y < tiles[x].length; y++) {
+      const tileObjects = tiles[x][y].objects.map((obj, index) => {
+        return {
+          ...obj,
+          position: [x, y, tiles[x][y].height + index + 1]
+        } as MovableObjectsInfo;
+      });
+
+      allObjects.push(...tileObjects);
+    }
+  }
+  return allObjects;
+}
+
+function assertMapDefined(state: State): asserts state is State & { map: LevelMap } {
+  if (!state.map) {
+    throw Error('No map defined.');
+  }
 }
 
 
 export {
   getRobotPosition,
   getRobotDirection,
+  getRobotKey,
   getMapDimensions,
-  getTilesInfo
+  getTilesInfo,
+  getMovableObjectsInfo
 };

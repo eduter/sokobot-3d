@@ -11,20 +11,20 @@ import TargetTile from './TargetTile';
 interface MapProps extends ConnectedProps<typeof connector> {
 }
 
-function Map({ mapDimensions, tilesInfo }: MapProps) {
+function Map({ mapDimensions, tilesInfo, movableObjectsInfo, robotKey }: MapProps) {
   const [xSize, ySize] = mapDimensions;
 
   return (
-    <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -.5]}>
-      <Robot/>
-      {tilesInfo.map(({ x, y, height, objects, target }) => (
+    <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -0.5]}>
+      <Robot key={robotKey}/>
+      {tilesInfo.map(({ x, y, height, hasTarget }) => (
         <Fragment key={`${x}-${y}`}>
           {height > 0 && <GroundElevation x={x} y={y} height={height}/>}
-          {objects.map((object, index) => (
-            <CardboardBox key={`${x}-${y}-${index}`} x={x} y={y} height={height + index + 1}/>
-          ))}
-          {target && <TargetTile x={x} y={y} height={height}/>}
+          {hasTarget && <TargetTile x={x} y={y} height={height}/>}
         </Fragment>
+      ))}
+      {movableObjectsInfo.map(({ key, position }) => (
+        <CardboardBox key={key} position={position}/>
       ))}
     </group>
   );
@@ -33,7 +33,9 @@ function Map({ mapDimensions, tilesInfo }: MapProps) {
 function mapStateToProps(state: State) {
   return {
     mapDimensions: gameSelectors.getMapDimensions(state.game),
-    tilesInfo: gameSelectors.getTilesInfo(state.game)
+    tilesInfo: gameSelectors.getTilesInfo(state.game),
+    movableObjectsInfo: gameSelectors.getMovableObjectsInfo(state.game),
+    robotKey: gameSelectors.getRobotKey(state.game)
   };
 }
 
