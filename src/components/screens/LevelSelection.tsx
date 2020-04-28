@@ -4,7 +4,7 @@ import { Lock, Unlock } from 'grommet-icons';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import levels from '../../data/levels.json';
+import { getLevelNames } from '../../levels';
 import { State } from '../../state/types';
 import { levelsSelectors } from '../../state/ducks/levels';
 import Screen from '../Screen';
@@ -16,10 +16,10 @@ interface LevelSelectionProps extends ConnectedProps<typeof connector> {
 function LevelSelection({ isUnlocked, selectLevel }: LevelSelectionProps) {
   return (
     <Screen title="Select Level">
-      {levels.map((_, level) => (
+      {getLevelNames().map((levelName, level) => (
         isUnlocked(level)
-          ? <Button key={level} label={`Level ${level + 1}`} icon={<Unlock/>} onClick={() => selectLevel(level)}/>
-          : <Button key={level} label={`Level ${level + 1}`} icon={<Lock/>} disabled={true}/>
+          ? <Button key={level} label={levelName} icon={<Unlock/>} onClick={() => selectLevel(level)}/>
+          : <Button key={level} label={levelName} icon={<Lock/>} disabled={true}/>
       ))}
     </Screen>
   );

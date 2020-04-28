@@ -1,7 +1,6 @@
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 import { Cmd, Loop } from 'redux-loop';
-import levels from '../../../data/levels.json';
-import { LevelMap } from '../../../mechanics/types';
+import { getLevelMap } from '../../../levels';
 import { gameActions } from '../game';
 import * as actions from './actions';
 import * as selectors from './selectors';
@@ -64,7 +63,7 @@ describe('levels reducer', () => {
 
     expect(reducer(stateBefore, actions.selectLevel(1))).toEqual([
       {...stateBefore, selectedLevel: 1},
-      Cmd.action(gameActions.startLevel(levels[1].map as unknown as LevelMap))
+      Cmd.action(gameActions.startLevel(getLevelMap(1)!))
     ]);
   });
 

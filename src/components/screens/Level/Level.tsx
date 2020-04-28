@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
-import levels from '../../../data/levels.json';
+import { getLevelMap, getLevelNames } from '../../../levels';
 import { levelsSelectors } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 import Screen from '../../Screen';
@@ -20,15 +20,16 @@ interface LevelProps extends RouteComponentProps<MatchParams>, ConnectedProps<ty
 
 function Level({ match, isUnlocked }: LevelProps) {
   const level = +match.params.level;
-  const levelData = levels[level];
-  //TODO: create levelsSelectors.getNextLevel() and move this to LevelClearedDialog
-  const nextLevel = levels[level + 1] ? level + 1 : undefined;
+  const levelName = getLevelNames()[level];
 
-  if (!levelData || !isUnlocked(level)) {
+  //TODO: create levelsSelectors.getNextLevel() and move this to LevelClearedDialog
+  const nextLevel = getLevelMap(level + 1) ? level + 1 : undefined;
+
+  if (levelName === undefined || !isUnlocked(level)) {
     return <Redirect to="/select-level"/>;
   }
   return (
-    <Screen title={levelData.name}>
+    <Screen title={levelName}>
       <MyCanvas/>
       <Controls/>
       <RestartButton/>

@@ -10,6 +10,7 @@ export interface LevelMap {
   readonly robot: {
     readonly position: Point2D;
     readonly direction: Direction;
+    readonly key?: string;
   };
 }
 
@@ -22,6 +23,7 @@ type MovableObject = Box;// | Ramp;
 
 interface Box {
   readonly type: 'box';
+  key?: string;
 }
 
 interface Ramp {

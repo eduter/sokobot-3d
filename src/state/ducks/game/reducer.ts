@@ -25,9 +25,11 @@ type TriggeredAction = GameAction | ReturnType<typeof levelsActions.clearLevel>;
 
 const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIAL_STATE, action) => {
   if (action.type === ActionTypes.START_LEVEL) {
+    const { map } = action.payload;
+
     return {
       finished: false,
-      ...action.payload
+      map
     };
   } else if (state.map) {
     switch (action.type) {
@@ -53,7 +55,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
           map: {
             ...state.map,
             robot: {
-              position: state.map.robot.position,
+              ...state.map.robot,
               direction: rotateRight(state.map.robot.direction)
             }
           }
@@ -64,7 +66,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
           map: {
             ...state.map,
             robot: {
-              position: state.map.robot.position,
+              ...state.map.robot,
               direction: rotateLeft(state.map.robot.direction)
             }
           }
@@ -76,8 +78,8 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
             ...state.map,
             tiles: pushObjects(state.map.tiles, state.map.robot.position, action.payload),
             robot: {
+              ...state.map.robot,
               position: getNeighbor(state.map.robot.position, action.payload),
-              direction: state.map.robot.direction
             }
           }
         };

@@ -1,7 +1,6 @@
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 import { Cmd, loop } from 'redux-loop';
-import levels from '../../../data/levels.json';
-import { LevelMap } from '../../../mechanics/types';
+import { getLevelMap } from '../../../levels';
 import { assertNever, Maybe, Reducer } from '../../../utils/types';
 import { gameActions } from '../game';
 import { LevelsAction, selectLevel } from './actions';
@@ -31,12 +30,12 @@ const levelsReducer: Reducer<State, HandledAction, TriggeredAction> = (state = I
     }
     case ActionTypes.SELECT_LEVEL: {
       const { level } = action.payload;
-      const levelData = levels[level];
+      const levelMap = getLevelMap(level);
 
-      if (levelData && isUnlocked(state, level)) {
+      if (levelMap && isUnlocked(state, level)) {
         return loop(
           { ...state, selectedLevel: level },
-          Cmd.action(gameActions.startLevel(levelData.map as unknown as LevelMap))
+          Cmd.action(gameActions.startLevel(levelMap))
         );
       }
       return state;
