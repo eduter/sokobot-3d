@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/sokobot-3d/precache-manifest.9ed5497d7bf7c5770e1daa35ab05d04b.js"
+  "/sokobot-3d/precache-manifest.c2e60c29c8d7c10fdcfd38e037c6da0e.js"
 );
 
 self.addEventListener('message', (event) => {

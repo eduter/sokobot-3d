@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/sokobot-3d/static/js/main.97b60481.chunk.js",
-    "main.js.map": "/sokobot-3d/static/js/main.97b60481.chunk.js.map",
-    "runtime-main.js": "/sokobot-3d/static/js/runtime-main.dadac098.js",
-    "runtime-main.js.map": "/sokobot-3d/static/js/runtime-main.dadac098.js.map",
-    "static/js/2.180024fb.chunk.js": "/sokobot-3d/static/js/2.180024fb.chunk.js",
-    "static/js/2.180024fb.chunk.js.map": "/sokobot-3d/static/js/2.180024fb.chunk.js.map",
+    "main.js": "/sokobot-3d/static/js/main.e5ddaa99.chunk.js",
+    "main.js.map": "/sokobot-3d/static/js/main.e5ddaa99.chunk.js.map",
+    "runtime-main.js": "/sokobot-3d/static/js/runtime-main.b05800b3.js",
+    "runtime-main.js.map": "/sokobot-3d/static/js/runtime-main.b05800b3.js.map",
+    "static/js/2.37b1cf6b.chunk.js": "/sokobot-3d/static/js/2.37b1cf6b.chunk.js",
+    "static/js/2.37b1cf6b.chunk.js.map": "/sokobot-3d/static/js/2.37b1cf6b.chunk.js.map",
     "index.html": "/sokobot-3d/index.html",
-    "precache-manifest.9ed5497d7bf7c5770e1daa35ab05d04b.js": "/sokobot-3d/precache-manifest.9ed5497d7bf7c5770e1daa35ab05d04b.js",
+    "precache-manifest.c2e60c29c8d7c10fdcfd38e037c6da0e.js": "/sokobot-3d/precache-manifest.c2e60c29c8d7c10fdcfd38e037c6da0e.js",
     "service-worker.js": "/sokobot-3d/service-worker.js",
-    "static/js/2.180024fb.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/2.180024fb.chunk.js.LICENSE.txt"
+    "static/js/2.37b1cf6b.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/2.37b1cf6b.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.dadac098.js",
-    "static/js/2.180024fb.chunk.js",
-    "static/js/main.97b60481.chunk.js"
+    "static/js/runtime-main.b05800b3.js",
+    "static/js/2.37b1cf6b.chunk.js",
+    "static/js/main.e5ddaa99.chunk.js"
   ]
 }
