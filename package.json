@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test-cov": "react-scripts test --coverage",
+    "test-cov": "CI=true react-scripts test --coverage --colors",
     "eject": "react-scripts eject"
   },
   "dependencies": {
