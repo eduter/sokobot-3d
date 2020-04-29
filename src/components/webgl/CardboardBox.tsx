@@ -1,4 +1,6 @@
 import React from 'react';
+import { a } from 'react-spring/three';
+import { useSimpleMovementAnimation } from '../../utils/hooks';
 
 
 interface CardboardBoxProps {
@@ -6,11 +8,13 @@ interface CardboardBoxProps {
 }
 
 function CardboardBox({ position }: CardboardBoxProps) {
+  const props = useSimpleMovementAnimation({ position });
+
   return (
-    <mesh position={position} castShadow={true} receiveShadow={true}>
+    <a.mesh {...props} castShadow={true} receiveShadow={true}>
       <boxBufferGeometry attach="geometry" args={[1, 1, 1]}/>
       <meshLambertMaterial attach="material" color={0xaa8844}/>
-    </mesh>
+    </a.mesh>
   );
 }
 

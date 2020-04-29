@@ -4,7 +4,7 @@ import { extend, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { gameSelectors } from '../../state/ducks/game';
 import { State } from '../../state/types';
-import useEffectOnce from '../../utils/useEffectOnce';
+import { useEffectOnce } from '../../utils/hooks';
 
 // False positive, when only the type is needed
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

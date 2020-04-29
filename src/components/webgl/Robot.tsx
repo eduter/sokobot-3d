@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
+import { a } from 'react-spring/three';
 import { gameActions, gameSelectors } from '../../state/ducks/game';
 import { State } from '../../state/types';
 import { directionToAngle } from '../../mechanics/directions';
+import { useEffectOnce, useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hooks';
 
 
 interface RobotProps extends ConnectedProps<typeof connector> {
@@ -27,18 +29,24 @@ function Robot({ position, direction, ...actions }: RobotProps) {
     }
   }
 
-  useEffect(() => {
+  useEffectOnce(() => {
     window.addEventListener('keypress', onKeyPress);
     return () => {
       window.removeEventListener('keypress', onKeyPress);
     };
   });
 
+  const zRotation = useMinimalRotation(direction);
+  const props = useSimpleMovementAnimation({
+    position,
+    rotation: [0, 0, zRotation]
+  });
+
   return (
-    <mesh position={position} rotation={[0, 0, direction]} castShadow={true} receiveShadow={true}>
+    <a.mesh {...props} castShadow={true} receiveShadow={true}>
       <coneBufferGeometry attach="geometry" args={[0.5, 1, 10]}/>
       <meshLambertMaterial attach="material" color={0x6A0BFF}/>
-    </mesh>
+    </a.mesh>
   );
 }
 
@@ -46,7 +54,7 @@ function mapStateToProps(state: State) {
   return {
     position: gameSelectors.getRobotPosition(state.game),
     direction: directionToAngle(gameSelectors.getRobotDirection(state.game))
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {

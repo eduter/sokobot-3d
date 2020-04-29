@@ -20,6 +20,7 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-spring": "^9.0.0-beta.34",
     "react-three-fiber": "^4.0.22",
     "redux": "^4.0.5",
     "redux-loop": "^5.1.1",

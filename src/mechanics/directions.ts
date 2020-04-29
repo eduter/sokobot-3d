@@ -7,11 +7,13 @@ enum Direction {
   WEST = 'WEST'
 }
 
+const rightAngle = Math.PI / 2;
+
 const DIRECTIONS = {
   NORTH: { dx: 0, dy: 1, angle: 0 },
-  EAST: { dx: 1, dy: 0, angle: -Math.PI / 2 },
-  SOUTH: { dx: 0, dy: -1, angle: Math.PI },
-  WEST: { dx: -1, dy: 0, angle: Math.PI / 2 }
+  WEST: { dx: -1, dy: 0, angle: rightAngle },
+  SOUTH: { dx: 0, dy: -1, angle: 2 * rightAngle },
+  EAST: { dx: 1, dy: 0, angle: 3 * rightAngle }
 } as const;
 
 const rightOf: Record<Direction, Direction> = {
@@ -51,6 +53,25 @@ function directionToAngle(direction: Direction): number {
   return DIRECTIONS[direction].angle;
 }
 
+/**
+ * Finds the angle that minimizes the rotation needed to go from one angle to a given direction.
+ *
+ * @param previousAngle - an angle in radians (may be negative or well over 2 * PI)
+ * @param currentDirection - an angle (in radians) indicating the direction of the result, within a circumference
+ * @return the closest angle to {@param previousAngle}, which points in the same direction as the angle
+ *    {@param currentDirection}
+ */
+function minimizeRotation(previousAngle: number, currentDirection: number): number {
+  const fullRotation = 2 * Math.PI;
+  const directionDiff = (currentDirection - previousAngle) % fullRotation;
+
+  if (directionDiff > Math.PI) {
+    return previousAngle + directionDiff - fullRotation;
+  } else if (directionDiff < -Math.PI) {
+    return previousAngle + directionDiff + fullRotation;
+  }
+  return previousAngle + directionDiff;
+}
 
 export {
   Direction,
@@ -58,5 +79,6 @@ export {
   rotateRight,
   rotateLeft,
   oppositeDirection,
-  directionToAngle
+  directionToAngle,
+  minimizeRotation
 };
