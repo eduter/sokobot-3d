@@ -84,6 +84,10 @@ function getMovableObjectsInfo(state: State): MovableObjectsInfo[] {
   return allObjects;
 }
 
+function isLevelCleared(state: State): boolean {
+  return state.finished;
+}
+
 function assertMapDefined(state: State): asserts state is State & { map: LevelMap } {
   if (!state.map) {
     throw Error('No map defined.');
@@ -97,5 +101,6 @@ export {
   getRobotKey,
   getMapDimensions,
   getTilesInfo,
-  getMovableObjectsInfo
+  getMovableObjectsInfo,
+  isLevelCleared
 };

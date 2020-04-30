@@ -1,11 +1,17 @@
 import { LOCATION_CHANGE, LocationChangeAction } from 'connected-react-router';
 import { Cmd, Loop } from 'redux-loop';
-import { getLevelMap } from '../../../levels';
+import * as levels from '../../../levels';
 import { gameActions } from '../game';
 import * as actions from './actions';
 import * as selectors from './selectors';
 import reducer from './reducer';
 import { State } from './types';
+
+
+jest.mock('../../../levels');
+
+const getLevelNames = levels.getLevelNames as jest.Mock;
+const getLevelMap = levels.getLevelMap as jest.Mock;
 
 
 describe('levels reducer', () => {
@@ -51,6 +57,9 @@ describe('levels reducer', () => {
   });
 
   it('selects a level, when the level exists and is unblocked', () => {
+    // level map mock only needs to be truthy
+    getLevelMap.mockReturnValueOnce({});
+
     const stateBefore: State = { unlockedLevels: 3 };
     const stateAfter = (reducer(stateBefore, actions.selectLevel(1)) as Loop<State, any>)[0];
 
@@ -59,11 +68,16 @@ describe('levels reducer', () => {
   });
 
   it('triggers gameActions.startLevel, when a level is successfully selected', () => {
-    const stateBefore: State = { unlockedLevels: 3 };
+    // level map mock only needs to be truthy
+    const mapMock = 'map mock';
+    getLevelMap.mockImplementation(level => level === 2 ? mapMock : undefined);
 
-    expect(reducer(stateBefore, actions.selectLevel(1))).toEqual([
-      {...stateBefore, selectedLevel: 1},
-      Cmd.action(gameActions.startLevel(getLevelMap(1)!))
+    const stateBefore: State = { unlockedLevels: 3 };
+    const result = reducer(stateBefore, actions.selectLevel(2));
+
+    expect(result).toEqual([
+      { ...stateBefore, selectedLevel: 2 },
+      Cmd.action(gameActions.startLevel(mapMock as any))
     ]);
   });
 
@@ -96,13 +110,13 @@ describe('levels reducer', () => {
     expect(selectors.isUnlocked(stateAfter, 5)).toBe(false);
   });
 
-  it('unselects the level, when clearing it', () => {
+  it('keeps the selected level after clearing it, until another is selected', () => {
     const stateBefore: State = { unlockedLevels: 5, selectedLevel: 3 };
     const action = actions.clearLevel();
     const stateAfter = reducer(stateBefore, action) as State;
 
     expect(selectors.getSelectedLevel(stateBefore)).toEqual(3);
-    expect(selectors.getSelectedLevel(stateAfter)).toBeUndefined();
+    expect(selectors.getSelectedLevel(stateAfter)).toEqual(3);
   });
 
   it('ignores unknown actions', () => {
@@ -113,6 +127,29 @@ describe('levels reducer', () => {
     const resultingState = reducer(state, action as any);
 
     expect(resultingState).toBe(state);
+  });
+
+});
+
+describe('selectors.getNextLevel()', () => {
+
+  it('returns undefined, when no level is selected', () => {
+    const state: State = { unlockedLevels: 5, selectedLevel: undefined };
+
+    expect(selectors.getNextLevel(state)).toEqual(undefined);
+  });
+
+  it('returns the next level after the currently selected', () => {
+    getLevelNames.mockReturnValue(['lv0', 'lv1', 'lv2', 'lv3']);
+    expect(selectors.getNextLevel({ unlockedLevels: 5, selectedLevel: 0 })).toEqual(1);
+    expect(selectors.getNextLevel({ unlockedLevels: 5, selectedLevel: 2 })).toEqual(3);
+  });
+
+  it('returns undefined, when the selected level is the last', () => {
+    const state: State = { unlockedLevels: 5, selectedLevel: 2 };
+
+    getLevelNames.mockReturnValueOnce(['lv0', 'lv1', 'lv2']);
+    expect(selectors.getNextLevel(state)).toEqual(undefined);
   });
 
 });

@@ -5,10 +5,28 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
 import { State } from '../../../state/types';
+import { levelsSelectors } from '../../../state/ducks/levels';
+import { gameSelectors } from '../../../state/ducks/game';
 
 
 interface LevelClearedDialogProps extends ConnectedProps<typeof connector> {
-  nextLevel: number | undefined;
+}
+
+function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSelection }: LevelClearedDialogProps) {
+  const message = nextLevel === undefined ? 'Congratulations, you finished the game!' : 'Level Cleared';
+
+  if (isLevelCleared) {
+    return (
+      <DialogWrapper>
+        <Box width="medium" gap="small" align="stretch" pad="small">
+          <h1>{message}</h1>
+          {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
+          <Button label="Back to level selection" onClick={goToLevelSelection}/>
+        </Box>
+      </DialogWrapper>
+    );
+  }
+  return null;
 }
 
 const DialogWrapper = styled.div`
@@ -21,27 +39,14 @@ const DialogWrapper = styled.div`
   border-radius: 1em;
   h1 {
     text-align: center;
+    line-height: 1.2em;
   }
 `;
 
-function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSelection }: LevelClearedDialogProps) {
-  if (isLevelCleared) {
-    return (
-      <DialogWrapper>
-        <Box width="medium" gap="small" align="stretch" pad="small">
-          <h1>{nextLevel ? 'Level Cleared' : 'Game Cleared'}</h1>
-          {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
-          <Button label="Back to level selection" onClick={goToLevelSelection}/>
-        </Box>
-      </DialogWrapper>
-    );
-  }
-  return null;
-}
-
 function mapStateToProps(state: State) {
   return {
-    isLevelCleared: state.game.finished
+    isLevelCleared: gameSelectors.isLevelCleared(state.game),
+    nextLevel: levelsSelectors.getNextLevel(state.levels)
   };
 }
 

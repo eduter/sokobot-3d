@@ -42,6 +42,7 @@ const levelsReducer: Reducer<State, HandledAction, TriggeredAction> = (state = I
     }
     case ActionTypes.CLEAR_LEVEL:
       return {
+        ...state,
         unlockedLevels: state.unlockedLevels + (state.selectedLevel === state.unlockedLevels - 1 ? 1 : 0)
       };
     default:

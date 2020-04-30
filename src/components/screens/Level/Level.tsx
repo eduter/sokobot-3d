@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
-import { getLevelMap, getLevelNames } from '../../../levels';
+import { getLevelNames } from '../../../levels';
 import { levelsSelectors } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 import Screen from '../../Screen';
@@ -15,17 +15,11 @@ interface MatchParams {
   level: string;
 }
 
-interface LevelProps extends RouteComponentProps<MatchParams>, ConnectedProps<typeof connector> {
+interface LevelProps extends ConnectedProps<typeof connector> {
 }
 
-function Level({ match, isUnlocked }: LevelProps) {
-  const level = +match.params.level;
-  const levelName = getLevelNames()[level];
-
-  //TODO: create levelsSelectors.getNextLevel() and move this to LevelClearedDialog
-  const nextLevel = getLevelMap(level + 1) ? level + 1 : undefined;
-
-  if (levelName === undefined || !isUnlocked(level)) {
+function Level({ isUnlocked, levelName }: LevelProps) {
+  if (levelName === undefined || !isUnlocked) {
     return <Redirect to="/select-level"/>;
   }
   return (
@@ -33,14 +27,21 @@ function Level({ match, isUnlocked }: LevelProps) {
       <MyCanvas/>
       <Controls/>
       <RestartButton/>
-      <LevelClearedDialog nextLevel={nextLevel}/>
+      <LevelClearedDialog/>
     </Screen>
   );
 }
 
-function mapStateToProps(state: State) {
+interface MatchParams {
+  level: string;
+}
+
+function mapStateToProps(state: State, { match }: RouteComponentProps<MatchParams>) {
+  const level = parseInt(match.params.level);
+
   return {
-    isUnlocked: (level: number) => levelsSelectors.isUnlocked(state.levels, level)
+    levelName: getLevelNames()[level],
+    isUnlocked: levelsSelectors.isUnlocked(state.levels, level)
   };
 }
 
