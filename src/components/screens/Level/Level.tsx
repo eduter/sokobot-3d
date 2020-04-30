@@ -6,7 +6,7 @@ import { levelsSelectors } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 import Screen from '../../Screen';
 import MyCanvas from '../../webgl/MyCanvas';
-import Controls from './Controls';
+import GameControls from './GameControls';
 import LevelClearedDialog from './LevelClearedDialog';
 import RestartButton from './RestartButton';
 
@@ -25,7 +25,7 @@ function Level({ isUnlocked, levelName }: LevelProps) {
   return (
     <Screen title={levelName}>
       <MyCanvas/>
-      <Controls/>
+      <GameControls/>
       <RestartButton/>
       <LevelClearedDialog/>
     </Screen>

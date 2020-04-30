@@ -5,24 +5,49 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
 import { gameActions } from '../../../state/ducks/game';
+import { useEffectOnce } from '../../../utils/hooks';
 
 
 interface ControlsProps extends ConnectedProps<typeof connector> {
 }
 
-function Controls({ moveForward, moveBackward, turnLeft, turnRight }: ControlsProps) {
+function GameControls({ moveForward, moveBackward, turnLeft, turnRight }: ControlsProps) {
+  const onKeyPress = createKeyPressHandler({
+    W: moveForward,
+    A: turnLeft,
+    S: moveBackward,
+    D: turnRight
+  });
+
+  useEffectOnce(() => {
+    window.addEventListener('keypress', onKeyPress);
+    return () => {
+      window.removeEventListener('keypress', onKeyPress);
+    };
+  });
+
   return (
     <Wrapper>
       <Box align="center">
-        <IconButton icon={<LinkUp/>} title="Move forward" onClick={moveForward}/>
+        <IconButton icon={<LinkUp/>} title="Move forward (W)" onClick={moveForward}/>
       </Box>
       <Box direction="row">
-        <IconButton icon={<RotateLeft/>} title="Turn left" onClick={turnLeft}/>
-        <IconButton icon={<LinkDown/>} title="Move backward" onClick={moveBackward}/>
-        <IconButton icon={<RotateRight/>} title="Turn right" onClick={turnRight}/>
+        <IconButton icon={<RotateLeft/>} title="Turn left (A)" onClick={turnLeft}/>
+        <IconButton icon={<LinkDown/>} title="Move backward (S)" onClick={moveBackward}/>
+        <IconButton icon={<RotateRight/>} title="Turn right (D)" onClick={turnRight}/>
       </Box>
     </Wrapper>
   );
+}
+
+function createKeyPressHandler(keyMapping: { [key: string]: () => void }) {
+  return (event: KeyboardEvent) => {
+    const key = event.key.toUpperCase();
+
+    if (key in keyMapping) {
+      keyMapping[key].call(null);
+    }
+  };
 }
 
 const Wrapper = styled.div`
@@ -54,5 +79,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
 const connector = connect(null, mapDispatchToProps);
 
 
-export default connector(Controls);
-export { Controls };
+export default connector(GameControls);
+export { GameControls };

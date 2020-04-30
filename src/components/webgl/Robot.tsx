@@ -1,41 +1,16 @@
 import React from 'react';
-import { Dispatch } from 'redux';
 import { connect, ConnectedProps } from 'react-redux';
 import { a } from 'react-spring/three';
-import { gameActions, gameSelectors } from '../../state/ducks/game';
+import { gameSelectors } from '../../state/ducks/game';
 import { State } from '../../state/types';
 import { directionToAngle } from '../../mechanics/directions';
-import { useEffectOnce, useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hooks';
+import { useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hooks';
 
 
 interface RobotProps extends ConnectedProps<typeof connector> {
 }
 
-function Robot({ position, direction, ...actions }: RobotProps) {
-  function onKeyPress(event: KeyboardEvent) {
-    switch (event.key) {
-      case 'w':
-        actions.moveForward();
-        break;
-      case 'd':
-        actions.turnRight();
-        break;
-      case 's':
-        actions.moveBackward();
-        break;
-      case 'a':
-        actions.turnLeft();
-        break;
-    }
-  }
-
-  useEffectOnce(() => {
-    window.addEventListener('keypress', onKeyPress);
-    return () => {
-      window.removeEventListener('keypress', onKeyPress);
-    };
-  });
-
+function Robot({ position, direction }: RobotProps) {
   const zRotation = useMinimalRotation(direction);
   const props = useSimpleMovementAnimation({
     position,
@@ -57,16 +32,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    moveForward: () => dispatch(gameActions.moveForward()),
-    moveBackward: () => dispatch(gameActions.moveBackward()),
-    turnRight: () => dispatch(gameActions.turnRight()),
-    turnLeft: () => dispatch(gameActions.turnLeft())
-  };
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 
 
 export default connector(Robot);
