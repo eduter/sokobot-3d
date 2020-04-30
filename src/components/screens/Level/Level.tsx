@@ -2,6 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { getLevelNames } from '../../../levels';
+import { gameSelectors } from '../../../state/ducks/game';
 import { levelsSelectors } from '../../../state/ducks/levels';
 import { State } from '../../../state/types';
 import Screen from '../../Screen';
@@ -18,16 +19,21 @@ interface MatchParams {
 interface LevelProps extends ConnectedProps<typeof connector> {
 }
 
-function Level({ isUnlocked, levelName }: LevelProps) {
+function Level({ isLevelCleared, isUnlocked, levelName }: LevelProps) {
   if (levelName === undefined || !isUnlocked) {
     return <Redirect to="/select-level"/>;
   }
   return (
     <Screen title={levelName}>
       <MyCanvas/>
-      <GameControls/>
-      <RestartButton/>
-      <LevelClearedDialog/>
+      {isLevelCleared ? (
+        <LevelClearedDialog/>
+      ) : (
+        <>
+          <GameControls/>
+          <RestartButton/>
+        </>
+      )}
     </Screen>
   );
 }
@@ -40,8 +46,9 @@ function mapStateToProps(state: State, { match }: RouteComponentProps<MatchParam
   const level = parseInt(match.params.level);
 
   return {
-    levelName: getLevelNames()[level],
-    isUnlocked: levelsSelectors.isUnlocked(state.levels, level)
+    isLevelCleared: gameSelectors.isLevelCleared(state.game),
+    isUnlocked: levelsSelectors.isUnlocked(state.levels, level),
+    levelName: getLevelNames()[level]
   };
 }
 

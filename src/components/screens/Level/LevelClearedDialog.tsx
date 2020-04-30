@@ -4,29 +4,25 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import { State } from '../../../state/types';
 import { levelsSelectors } from '../../../state/ducks/levels';
-import { gameSelectors } from '../../../state/ducks/game';
+import { State } from '../../../state/types';
 
 
 interface LevelClearedDialogProps extends ConnectedProps<typeof connector> {
 }
 
-function LevelClearedDialog({ isLevelCleared, nextLevel, goToLevel, goToLevelSelection }: LevelClearedDialogProps) {
+function LevelClearedDialog({ nextLevel, goToLevel, goToLevelSelection }: LevelClearedDialogProps) {
   const message = nextLevel === undefined ? 'Congratulations, you finished the game!' : 'Level Cleared';
 
-  if (isLevelCleared) {
-    return (
-      <DialogWrapper>
-        <Box width="medium" gap="small" align="stretch" pad="small">
-          <h1>{message}</h1>
-          {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
-          <Button label="Back to level selection" onClick={goToLevelSelection}/>
-        </Box>
-      </DialogWrapper>
-    );
-  }
-  return null;
+  return (
+    <DialogWrapper>
+      <Box width="medium" gap="small" align="stretch" pad="small">
+        <h1>{message}</h1>
+        {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
+        <Button label="Back to level selection" onClick={goToLevelSelection}/>
+      </Box>
+    </DialogWrapper>
+  );
 }
 
 const DialogWrapper = styled.div`
@@ -45,7 +41,6 @@ const DialogWrapper = styled.div`
 
 function mapStateToProps(state: State) {
   return {
-    isLevelCleared: gameSelectors.isLevelCleared(state.game),
     nextLevel: levelsSelectors.getNextLevel(state.levels)
   };
 }
