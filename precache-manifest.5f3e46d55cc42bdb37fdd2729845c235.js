@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d4efe56bb34c7f5e46f8ff87c762c648",
+    "revision": "2974bacc5cfb8e58eb07b9fa578d98ca",
     "url": "/sokobot-3d/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/sokobot-3d/static/js/2.b14d2dd2.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e29b788ff7437afb62a0",
-    "url": "/sokobot-3d/static/js/main.e3abd470.chunk.js"
+    "revision": "42e4d94c0e16d5669722",
+    "url": "/sokobot-3d/static/js/main.0db3e263.chunk.js"
   },
   {
     "revision": "4a42c2ea5c91d8fc9250",

@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/sokobot-3d/static/js/main.e3abd470.chunk.js",
-    "main.js.map": "/sokobot-3d/static/js/main.e3abd470.chunk.js.map",
+    "main.js": "/sokobot-3d/static/js/main.0db3e263.chunk.js",
+    "main.js.map": "/sokobot-3d/static/js/main.0db3e263.chunk.js.map",
     "runtime-main.js": "/sokobot-3d/static/js/runtime-main.218dbfe1.js",
     "runtime-main.js.map": "/sokobot-3d/static/js/runtime-main.218dbfe1.js.map",
     "static/js/2.b14d2dd2.chunk.js": "/sokobot-3d/static/js/2.b14d2dd2.chunk.js",
     "static/js/2.b14d2dd2.chunk.js.map": "/sokobot-3d/static/js/2.b14d2dd2.chunk.js.map",
     "index.html": "/sokobot-3d/index.html",
-    "precache-manifest.d2a3400975c901f5c91808c074882707.js": "/sokobot-3d/precache-manifest.d2a3400975c901f5c91808c074882707.js",
+    "precache-manifest.5f3e46d55cc42bdb37fdd2729845c235.js": "/sokobot-3d/precache-manifest.5f3e46d55cc42bdb37fdd2729845c235.js",
     "service-worker.js": "/sokobot-3d/service-worker.js",
     "static/js/2.b14d2dd2.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/2.b14d2dd2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.218dbfe1.js",
     "static/js/2.b14d2dd2.chunk.js",
-    "static/js/main.e3abd470.chunk.js"
+    "static/js/main.0db3e263.chunk.js"
   ]
 }
