@@ -7,7 +7,7 @@ import { loadPersistedState, setupStatePersistence } from './localStorage';
 import { State } from './types';
 
 
-const PERSISTENT_SLICES: Array<keyof State> = ['levels'];
+const PERSISTENT_SLICES: Array<keyof State> = ['levels', 'settings'];
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?? compose;
 

@@ -5,13 +5,15 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
 import { gameActions } from '../../../state/ducks/game';
+import { settingsSelectors } from '../../../state/ducks/settings';
+import { State } from '../../../state/types';
 import { useEffectOnce } from '../../../utils/hooks';
 
 
 interface ControlsProps extends ConnectedProps<typeof connector> {
 }
 
-function GameControls({ moveForward, moveBackward, turnLeft, turnRight }: ControlsProps) {
+function GameControls({ displayOnScreenControls, moveForward, moveBackward, turnLeft, turnRight }: ControlsProps) {
   const onKeyPress = createKeyPressHandler({
     W: moveForward,
     A: turnLeft,
@@ -26,18 +28,21 @@ function GameControls({ moveForward, moveBackward, turnLeft, turnRight }: Contro
     };
   });
 
-  return (
-    <Wrapper>
-      <Box align="center">
-        <IconButton icon={<LinkUp/>} title="Move forward (W)" onClick={moveForward}/>
-      </Box>
-      <Box direction="row">
-        <IconButton icon={<RotateLeft/>} title="Turn left (A)" onClick={turnLeft}/>
-        <IconButton icon={<LinkDown/>} title="Move backward (S)" onClick={moveBackward}/>
-        <IconButton icon={<RotateRight/>} title="Turn right (D)" onClick={turnRight}/>
-      </Box>
-    </Wrapper>
-  );
+  if (displayOnScreenControls) {
+    return (
+      <Wrapper>
+        <Box align="center">
+          <IconButton icon={<LinkUp/>} title="Move forward (W)" onClick={moveForward}/>
+        </Box>
+        <Box direction="row">
+          <IconButton icon={<RotateLeft/>} title="Turn left (A)" onClick={turnLeft}/>
+          <IconButton icon={<LinkDown/>} title="Move backward (S)" onClick={moveBackward}/>
+          <IconButton icon={<RotateRight/>} title="Turn right (D)" onClick={turnRight}/>
+        </Box>
+      </Wrapper>
+    );
+  }
+  return null;
 }
 
 function createKeyPressHandler(keyMapping: { [key: string]: () => void }) {
@@ -67,6 +72,12 @@ function IconButton(props: IconButtonProps) {
   return <Button {...props} plain={false} margin="xxsmall"/>;
 }
 
+function mapStateToProps(state: State) {
+  return {
+    displayOnScreenControls: settingsSelectors.displayOnScreenControls(state.settings)
+  };
+}
+
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
     moveForward: () => dispatch(gameActions.moveForward()),
@@ -76,7 +87,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 
 export default connector(GameControls);
