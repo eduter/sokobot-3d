@@ -4,8 +4,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import { levelsActions, levelsSelectors } from '../../../state/ducks/levels';
-import { State } from '../../../state/types';
+import { levelsActions, levelsSelectors, RootState } from '../../../state';
 
 
 interface RestartButtonProps extends ConnectedProps<typeof connector> {
@@ -26,7 +25,7 @@ const Wrapper = styled.div`
   z-index: 1000;
 `;
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     level: levelsSelectors.getSelectedLevel(state.levels)!
   };

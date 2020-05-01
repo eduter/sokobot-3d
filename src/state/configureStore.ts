@@ -2,9 +2,8 @@ import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { install, StoreCreator } from 'redux-loop';
-import createRootReducer from './ducks';
+import createRootReducer, { State } from './ducks';
 import { loadPersistedState, setupStatePersistence } from './localStorage';
-import { State } from './types';
 
 
 const PERSISTENT_SLICES: Array<keyof State> = ['levels', 'settings'];
@@ -37,6 +36,4 @@ function configureStore() {
 }
 
 
-export {
-  configureStore
-};
+export default configureStore;

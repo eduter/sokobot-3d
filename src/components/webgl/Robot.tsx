@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { a } from 'react-spring/three';
-import { gameSelectors } from '../../state/ducks/game';
-import { State } from '../../state/types';
+import { gameSelectors, RootState } from '../../state';
 import { directionToAngle } from '../../mechanics/directions';
 import { useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hooks';
 
@@ -25,7 +24,7 @@ function Robot({ position, direction }: RobotProps) {
   );
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     position: gameSelectors.getRobotPosition(state.game),
     direction: directionToAngle(gameSelectors.getRobotDirection(state.game))

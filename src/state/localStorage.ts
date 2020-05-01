@@ -1,5 +1,5 @@
-import { State } from './types';
 import { Store } from 'redux';
+import { State } from './ducks';
 
 
 /**

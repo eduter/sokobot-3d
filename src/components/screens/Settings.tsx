@@ -2,8 +2,7 @@ import { CheckBox } from 'grommet';
 import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { settingsActions, settingsSelectors } from '../../state/ducks/settings';
-import { State } from '../../state/types';
+import { RootState, settingsActions, settingsSelectors } from '../../state';
 import BackButton from '../BackButton';
 import Screen from '../Screen';
 
@@ -23,7 +22,7 @@ function Settings({ displayOnScreenControls, toggleOnScreenControls }: SettingsP
   );
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     displayOnScreenControls: settingsSelectors.displayOnScreenControls(state.settings)
   };

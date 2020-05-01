@@ -2,9 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { getLevelNames } from '../../../levels';
-import { gameSelectors } from '../../../state/ducks/game';
-import { levelsSelectors } from '../../../state/ducks/levels';
-import { State } from '../../../state/types';
+import { gameSelectors, levelsSelectors, RootState } from '../../../state';
 import Screen from '../../Screen';
 import MyCanvas from '../../webgl/MyCanvas';
 import GameControls from './GameControls';
@@ -42,7 +40,7 @@ interface MatchParams {
   level: string;
 }
 
-function mapStateToProps(state: State, { match }: RouteComponentProps<MatchParams>) {
+function mapStateToProps(state: RootState, { match }: RouteComponentProps<MatchParams>) {
   const level = parseInt(match.params.level);
 
   return {

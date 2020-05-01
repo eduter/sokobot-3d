@@ -4,9 +4,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import { gameActions } from '../../../state/ducks/game';
-import { settingsSelectors } from '../../../state/ducks/settings';
-import { State } from '../../../state/types';
+import { gameActions, settingsSelectors, RootState } from '../../../state';
 import { useEffectOnce } from '../../../utils/hooks';
 
 
@@ -72,7 +70,7 @@ function IconButton(props: IconButtonProps) {
   return <Button {...props} plain={false} margin="xxsmall"/>;
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     displayOnScreenControls: settingsSelectors.displayOnScreenControls(state.settings)
   };

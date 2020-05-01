@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { gameSelectors } from '../../state/ducks/game';
-import { State } from '../../state/types';
+import { gameSelectors, RootState } from '../../state';
 import CardboardBox from './CardboardBox';
 import GroundElevation from './GroundElevation';
 import Robot from './Robot';
@@ -30,7 +29,7 @@ function Map({ mapDimensions, tilesInfo, movableObjectsInfo, robotKey }: MapProp
   );
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     mapDimensions: gameSelectors.getMapDimensions(state.game),
     tilesInfo: gameSelectors.getTilesInfo(state.game),

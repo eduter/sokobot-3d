@@ -5,8 +5,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { getLevelNames } from '../../levels';
-import { State } from '../../state/types';
-import { levelsSelectors } from '../../state/ducks/levels';
+import { levelsSelectors, RootState } from '../../state';
 import Screen from '../Screen';
 
 
@@ -25,7 +24,7 @@ function LevelSelection({ isUnlocked, selectLevel }: LevelSelectionProps) {
   );
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     isUnlocked: (level: number) => levelsSelectors.isUnlocked(state.levels, level)
   };

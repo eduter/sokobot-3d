@@ -4,8 +4,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import styled from 'styled-components';
-import { levelsSelectors } from '../../../state/ducks/levels';
-import { State } from '../../../state/types';
+import { levelsSelectors, RootState } from '../../../state';
 
 
 interface LevelClearedDialogProps extends ConnectedProps<typeof connector> {
@@ -39,7 +38,7 @@ const DialogWrapper = styled.div`
   }
 `;
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     nextLevel: levelsSelectors.getNextLevel(state.levels)
   };

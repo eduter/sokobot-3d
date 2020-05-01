@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { extend, useThree } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { gameSelectors } from '../../state/ducks/game';
-import { State } from '../../state/types';
+import { gameSelectors, RootState } from '../../state';
 import { useEffectOnce } from '../../utils/hooks';
 
 // False positive, when only the type is needed
@@ -40,7 +39,7 @@ function CameraControls({ initialPosition }: CameraControlsProps) {
   return <orbitControls args={[camera, gl.domElement]} maxPolarAngle={Math.PI / 2} enablePan={false} ref={controls}/>;
 }
 
-function mapStateToProps(state: State) {
+function mapStateToProps(state: RootState) {
   return {
     // TODO: find a proper way to determine a good initial camera position
     initialPosition: (() => {
