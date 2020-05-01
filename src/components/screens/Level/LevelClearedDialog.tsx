@@ -17,7 +17,7 @@ function LevelClearedDialog({ nextLevel, goToLevel, goToLevelSelection }: LevelC
   return (
     <DialogWrapper>
       <Box width="medium" gap="small" align="stretch" pad="small">
-        <h1>{message}</h1>
+        <h1 data-testid="message">{message}</h1>
         {nextLevel !== undefined && <Button label="Go to next level" onClick={() => goToLevel(nextLevel)}/>}
         <Button label="Back to level selection" onClick={goToLevelSelection}/>
       </Box>
@@ -47,8 +47,12 @@ function mapStateToProps(state: State) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    goToLevel: (level: number) => dispatch(push(`/level/${level}`)),
-    goToLevelSelection: () => dispatch(push('/select-level'))
+    goToLevel: (level: number) => {
+      dispatch(push(`/level/${level}`))
+    },
+    goToLevelSelection: () => {
+      dispatch(push('/select-level'))
+    }
   };
 }
 
