@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { a } from 'react-spring/three';
+import { useLoader } from 'react-three-fiber';
+import { Mesh } from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { gameSelectors, RootState } from '../../state';
 import { directionToAngle } from '../../mechanics/directions';
 import { useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hooks';
@@ -9,19 +12,24 @@ import { useMinimalRotation, useSimpleMovementAnimation } from '../../utils/hook
 interface RobotProps extends ConnectedProps<typeof connector> {
 }
 
-function Robot({ position, direction }: RobotProps) {
+function Robot(props: RobotProps) {
+  return (
+    <Suspense fallback={null}>
+      <RobotMesh {...props}/>
+    </Suspense>
+  );
+}
+
+function RobotMesh({ position, direction }: RobotProps) {
+  const gltf = useLoader(GLTFLoader, process.env.PUBLIC_URL + '/3d-models/cone.glb');
+  const { geometry, material } = gltf.scene.children[0] as Mesh;
   const zRotation = useMinimalRotation(direction);
   const props = useSimpleMovementAnimation({
     position,
     rotation: [0, 0, zRotation]
   });
 
-  return (
-    <a.mesh {...props} castShadow={true} receiveShadow={true}>
-      <coneBufferGeometry attach="geometry" args={[0.5, 1, 10]}/>
-      <meshLambertMaterial attach="material" color={0x6A0BFF}/>
-    </a.mesh>
-  );
+  return <a.mesh {...props} castShadow={true} receiveShadow={true} geometry={geometry} material={material}/>;
 }
 
 function mapStateToProps(state: RootState) {
