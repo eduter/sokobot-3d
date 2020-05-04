@@ -16,7 +16,7 @@ function MyCanvas() {
             <CameraControls/>
             <group rotation={[-Math.PI / 2, 0, 0]}>
               {process.env.NODE_ENV !== 'production' && <AxesHelper scale={[10, 10, 10]}/>}
-              <ambientLight intensity={0.3}/>
+              <ambientLight intensity={0.4}/>
               <spotLight
                 color={new Color('#fffda7')}
                 castShadow
