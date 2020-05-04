@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.js": "/sokobot-3d/static/js/main.d65a836c.chunk.js",
-    "main.js.map": "/sokobot-3d/static/js/main.d65a836c.chunk.js.map",
-    "runtime-main.js": "/sokobot-3d/static/js/runtime-main.c2f9bb60.js",
-    "runtime-main.js.map": "/sokobot-3d/static/js/runtime-main.c2f9bb60.js.map",
-    "static/js/2.30b14126.chunk.js": "/sokobot-3d/static/js/2.30b14126.chunk.js",
-    "static/js/2.30b14126.chunk.js.map": "/sokobot-3d/static/js/2.30b14126.chunk.js.map",
-    "static/js/3.a9673732.chunk.js": "/sokobot-3d/static/js/3.a9673732.chunk.js",
-    "static/js/3.a9673732.chunk.js.map": "/sokobot-3d/static/js/3.a9673732.chunk.js.map",
-    "static/js/4.f0ce5fc3.chunk.js": "/sokobot-3d/static/js/4.f0ce5fc3.chunk.js",
-    "static/js/4.f0ce5fc3.chunk.js.map": "/sokobot-3d/static/js/4.f0ce5fc3.chunk.js.map",
-    "static/js/5.7ece04f2.chunk.js": "/sokobot-3d/static/js/5.7ece04f2.chunk.js",
-    "static/js/5.7ece04f2.chunk.js.map": "/sokobot-3d/static/js/5.7ece04f2.chunk.js.map",
-    "static/js/6.cf5684a1.chunk.js": "/sokobot-3d/static/js/6.cf5684a1.chunk.js",
-    "static/js/6.cf5684a1.chunk.js.map": "/sokobot-3d/static/js/6.cf5684a1.chunk.js.map",
+    "main.js": "/sokobot-3d/static/js/main.3eb50e6e.chunk.js",
+    "main.js.map": "/sokobot-3d/static/js/main.3eb50e6e.chunk.js.map",
+    "runtime-main.js": "/sokobot-3d/static/js/runtime-main.3129b302.js",
+    "runtime-main.js.map": "/sokobot-3d/static/js/runtime-main.3129b302.js.map",
+    "static/js/2.a6080ebe.chunk.js": "/sokobot-3d/static/js/2.a6080ebe.chunk.js",
+    "static/js/2.a6080ebe.chunk.js.map": "/sokobot-3d/static/js/2.a6080ebe.chunk.js.map",
+    "static/js/3.c03c1744.chunk.js": "/sokobot-3d/static/js/3.c03c1744.chunk.js",
+    "static/js/3.c03c1744.chunk.js.map": "/sokobot-3d/static/js/3.c03c1744.chunk.js.map",
+    "static/js/4.8b30e7ca.chunk.js": "/sokobot-3d/static/js/4.8b30e7ca.chunk.js",
+    "static/js/4.8b30e7ca.chunk.js.map": "/sokobot-3d/static/js/4.8b30e7ca.chunk.js.map",
+    "static/js/5.869b16b4.chunk.js": "/sokobot-3d/static/js/5.869b16b4.chunk.js",
+    "static/js/5.869b16b4.chunk.js.map": "/sokobot-3d/static/js/5.869b16b4.chunk.js.map",
+    "static/js/6.61c8f31b.chunk.js": "/sokobot-3d/static/js/6.61c8f31b.chunk.js",
+    "static/js/6.61c8f31b.chunk.js.map": "/sokobot-3d/static/js/6.61c8f31b.chunk.js.map",
     "index.html": "/sokobot-3d/index.html",
-    "precache-manifest.b67d75aafc96efcaec46f1e6f0b3064c.js": "/sokobot-3d/precache-manifest.b67d75aafc96efcaec46f1e6f0b3064c.js",
+    "precache-manifest.cac229c8f78fab4f9ef0d1d908450ba2.js": "/sokobot-3d/precache-manifest.cac229c8f78fab4f9ef0d1d908450ba2.js",
     "service-worker.js": "/sokobot-3d/service-worker.js",
-    "static/js/2.30b14126.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/2.30b14126.chunk.js.LICENSE.txt",
-    "static/js/3.a9673732.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/3.a9673732.chunk.js.LICENSE.txt"
+    "static/js/2.a6080ebe.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/2.a6080ebe.chunk.js.LICENSE.txt",
+    "static/js/3.c03c1744.chunk.js.LICENSE.txt": "/sokobot-3d/static/js/3.c03c1744.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c2f9bb60.js",
-    "static/js/2.30b14126.chunk.js",
-    "static/js/main.d65a836c.chunk.js"
+    "static/js/runtime-main.3129b302.js",
+    "static/js/2.a6080ebe.chunk.js",
+    "static/js/main.3eb50e6e.chunk.js"
   ]
 }
