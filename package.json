@@ -6,6 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "analyze": "source-map-explorer 'build/static/js/*.js' --html > bundle-analysis.html",
     "test": "react-scripts test",
     "test-cov": "CI=true react-scripts test --coverage --colors",
     "eject": "react-scripts eject"
@@ -42,6 +43,7 @@
     "@types/styled-components": "^5.0.1",
     "@types/three": "^0.103.2",
     "@types/webpack-env": "^1.15.1",
+    "source-map-explorer": "^2.4.2",
     "utility-types": "^3.10.0"
   },
   "eslintConfig": {
