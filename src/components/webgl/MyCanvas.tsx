@@ -1,19 +1,21 @@
 import React from 'react';
-import { ReactReduxContext, Provider } from 'react-redux';
+import { Provider, ReactReduxContext } from 'react-redux';
 import { Canvas } from 'react-three-fiber';
 import { AxesHelper } from 'react-three-fiber/components';
 import { Color } from 'three';
 import CameraControls from './CameraControls';
 import Map from './Map';
+import VrButton from './VrButton';
 
 
 function MyCanvas() {
   return (
     <ReactReduxContext.Consumer>
       {({ store }) => (
-        <Canvas shadowMap style={{ backgroundColor: 'black', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+        <Canvas vr shadowMap style={{ backgroundColor: 'black', height: '100%', position: 'absolute', top: 0, left: 0 }}>
           <Provider store={store}>
             <CameraControls/>
+            <VrButton/>
             <group rotation={[-Math.PI / 2, 0, 0]}>
               {process.env.NODE_ENV !== 'production' && <AxesHelper scale={[10, 10, 10]}/>}
               <ambientLight intensity={0.4}/>
