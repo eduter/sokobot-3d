@@ -103,7 +103,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
 
 function canMove(state: LevelMap, direction: Direction) {
   const relevantTiles = getRelevantTiles(state.tiles, state.robot.position, direction);
-  return isMoveValid(...relevantTiles);
+  return isMoveValid(true, ...relevantTiles);
 }
 
 

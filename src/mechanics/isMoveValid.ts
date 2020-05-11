@@ -2,7 +2,7 @@ import { Maybe } from '../utils/types';
 import { Tile } from './types';
 
 
-function isMoveValid(currentTile: Tile, targetTile: Maybe<Tile>, pushedObectsTile: Maybe<Tile>): boolean {
+function isMoveValid(allowPushing: boolean, currentTile: Tile, targetTile: Maybe<Tile>, pushedObjectsTile?: Maybe<Tile>): boolean {
   if (!isValidTile(targetTile)) {
     // target is beyond the edge or is a hole
     return false;
@@ -15,10 +15,12 @@ function isMoveValid(currentTile: Tile, targetTile: Maybe<Tile>, pushedObectsTil
   const pushedObjects = targetTile.objects.slice(height - targetTile.height);
 
   if (pushedObjects.length > 0) {
-    if (!isValidTile(pushedObectsTile)) {
+    if (!allowPushing) {
+      return false;
+    } else if (!isValidTile(pushedObjectsTile)) {
       // trying to push objects into the void
       return false;
-    } else if (pushedObectsTile.height + pushedObectsTile.objects.length > height) {
+    } else if (pushedObjectsTile.height + pushedObjectsTile.objects.length > height) {
       // trying to push objects into a wall/object
       return false;
     }
