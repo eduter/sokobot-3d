@@ -1,6 +1,7 @@
-import { Direction } from '../../../mechanics/directions';
+import { Direction, Point2D } from '../../../mechanics/directions';
 import { LevelMap, MovableObject } from '../../../mechanics/types';
 import { State } from './types';
+import getPossibleMovez from '../../../mechanics/possibleMoves';
 
 
 interface TileStaticInfo {
@@ -94,6 +95,11 @@ function assertMapDefined(state: State): asserts state is State & { map: LevelMa
   }
 }
 
+function getPossibleMoves(state: State): Point2D[] {
+  assertMapDefined(state);
+  return getPossibleMovez(state.map.tiles, state.map.robot.position);
+}
+
 
 export {
   getRobotPosition,
@@ -102,5 +108,6 @@ export {
   getMapDimensions,
   getTilesInfo,
   getMovableObjectsInfo,
-  isLevelCleared
+  isLevelCleared,
+  getPossibleMoves
 };

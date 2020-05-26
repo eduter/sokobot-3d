@@ -5,6 +5,7 @@ import CardboardBox from './CardboardBox';
 import GroundElevation from './GroundElevation';
 import Robot from './Robot';
 import TargetTile from './TargetTile';
+import PossibleMoves from './PossibleMoves';
 
 
 interface MapProps extends ConnectedProps<typeof connector> {
@@ -16,6 +17,7 @@ function Map({ mapDimensions, tilesInfo, movableObjectsInfo, robotKey }: MapProp
   return (
     <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -0.5]}>
       <Robot key={robotKey}/>
+      <PossibleMoves/>
       {tilesInfo.map(({ x, y, height, hasTarget }) => (
         <Fragment key={`${x}-${y}`}>
           {height > 0 && <GroundElevation x={x} y={y} height={height}/>}
