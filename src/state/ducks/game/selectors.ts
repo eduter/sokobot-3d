@@ -1,4 +1,4 @@
-import { Direction, Point2D } from '../../../mechanics/directions';
+import { Direction, Point3D } from '../../../mechanics/directions';
 import { LevelMap, MovableObject } from '../../../mechanics/types';
 import { State } from './types';
 import getPossibleMovez from '../../../mechanics/possibleMoves';
@@ -95,7 +95,7 @@ function assertMapDefined(state: State): asserts state is State & { map: LevelMa
   }
 }
 
-function getPossibleMoves(state: State): Point2D[] {
+function getPossibleMoves(state: State): Point3D[] {
   assertMapDefined(state);
   return getPossibleMovez(state.map.tiles, state.map.robot.position);
 }

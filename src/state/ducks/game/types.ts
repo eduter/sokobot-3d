@@ -8,7 +8,9 @@ export enum ActionTypes {
   MOVE_FORWARD = 'game/MOVE_FORWARD',
   MOVE_BACKWARD = 'game/MOVE_BACKWARD',
   TURN_RIGHT = 'game/TURN_RIGHT',
-  TURN_LEFT = 'game/TURN_LEFT'
+  TURN_LEFT = 'game/TURN_LEFT',
+  WALK = 'game/WALK',
+  PUSH = 'game/PUSH'
 }
 
 export interface State {

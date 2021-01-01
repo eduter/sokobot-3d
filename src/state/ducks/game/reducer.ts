@@ -71,7 +71,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
             }
           }
         };
-      case ActionTypes.MOVE:
+      case ActionTypes.MOVE: {
         const newState = {
           ...state,
           map: {
@@ -79,7 +79,7 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
             tiles: pushObjects(state.map.tiles, state.map.robot.position, action.payload),
             robot: {
               ...state.map.robot,
-              position: getNeighbor(state.map.robot.position, action.payload),
+              position: getNeighbor(state.map.robot.position, action.payload)
             }
           }
         };
@@ -87,6 +87,20 @@ const gameReducer: Reducer<State, GameAction, TriggeredAction> = (state = INITIA
           return loop(newState, Cmd.action(finishLevel()));
         }
         return newState;
+      }
+      case ActionTypes.WALK: {
+        const { position } = action.payload;
+        return {
+          ...state,
+          map: {
+            ...state.map,
+            robot: {
+              ...state.map.robot,
+              position
+            }
+          }
+        };
+      }
       case ActionTypes.FINISH_LEVEL:
         return loop(
           { ...state, finished: true },

@@ -11,13 +11,13 @@ import PossibleMoves from './PossibleMoves';
 interface MapProps extends ConnectedProps<typeof connector> {
 }
 
-function Map({ mapDimensions, tilesInfo, movableObjectsInfo, robotKey }: MapProps) {
+function Map({ mapDimensions, tilesInfo, movableObjectsInfo, robotKey, isLevelCleared }: MapProps) {
   const [xSize, ySize] = mapDimensions;
 
   return (
     <group position={[(1 - xSize) / 2, (1 - ySize) / 2, -0.5]}>
       <Robot key={robotKey}/>
-      <PossibleMoves/>
+      {isLevelCleared || <PossibleMoves/>}
       {tilesInfo.map(({ x, y, height, hasTarget }) => (
         <Fragment key={`${x}-${y}`}>
           {height > 0 && <GroundElevation x={x} y={y} height={height}/>}
@@ -36,7 +36,8 @@ function mapStateToProps(state: RootState) {
     mapDimensions: gameSelectors.getMapDimensions(state.game),
     tilesInfo: gameSelectors.getTilesInfo(state.game),
     movableObjectsInfo: gameSelectors.getMovableObjectsInfo(state.game),
-    robotKey: gameSelectors.getRobotKey(state.game)
+    robotKey: gameSelectors.getRobotKey(state.game),
+    isLevelCleared: gameSelectors.isLevelCleared(state.game)
   };
 }
 

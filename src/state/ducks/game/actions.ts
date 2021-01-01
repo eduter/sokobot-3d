@@ -1,4 +1,4 @@
-import { Direction } from '../../../mechanics/directions';
+import { Direction, Point2D } from '../../../mechanics/directions';
 import { LevelMap } from '../../../mechanics/types';
 import { Action } from '../../../utils/types';
 import { ActionTypes } from './types';
@@ -12,6 +12,7 @@ export type GameAction = (
   | Action<ActionTypes.TURN_LEFT>
   | Action<ActionTypes.TURN_RIGHT>
   | Action<ActionTypes.MOVE, Direction>
+  | Action<ActionTypes.WALK, { position: Point2D }>
 );
 
 function startLevel(map: LevelMap): GameAction {
@@ -50,6 +51,15 @@ function move(direction: Direction): GameAction {
   };
 }
 
+function walk(position: Point2D): GameAction {
+  return {
+    type: ActionTypes.WALK,
+    payload: {
+      position
+    }
+  }
+}
+
 
 export {
   startLevel,
@@ -58,5 +68,6 @@ export {
   moveBackward,
   turnRight,
   turnLeft,
-  move
+  move,
+  walk
 };
